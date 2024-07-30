@@ -52,7 +52,7 @@ class _MainViewState extends State<MainView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 0),
                 child: Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -80,40 +80,33 @@ class _MainViewState extends State<MainView> {
                         ),
                       ) :
 
-                      Column(
-                        children: [
-                          // SizedBox(
-                          //   height: size.height * 0.2,
-                          // ),
-                          SizedBox(
-                            //height: deviceHeight * 0.28,
-                            child: FadeInUp(
-                              delay: const Duration(milliseconds: 200),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 0, bottom: 0),
-                                child: GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    childAspectRatio: 0.79,
-                                    mainAxisSpacing: 0.0,
-                                    // Spacing between items on the main axis
-                                    crossAxisSpacing:
-                                    0.0, maxCrossAxisExtent: 200, // Spacing between items on the cross axis
-                                  ),
-                                  itemCount: mainVm.cakes.length,
-                                  itemBuilder: (context, index) {
-                                    final item = mainVm.cakes[index];
-                                    return CategoryItem(cakeModel: item);
-                                  },
-                                ),
+                      SizedBox(
+                        //height: deviceHeight * 0.28,
+                        child: FadeInUp(
+                          delay: const Duration(milliseconds: 200),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 0, bottom: 0),
+                            child: GridView.builder(
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, // Number of columns
+                                mainAxisSpacing:
+                                10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 1.0, // Adjust aspect ratio for item size
                               ),
+                              itemCount: mainVm.cakes.length,
+                              itemBuilder: (context, index) {
+                                final item = mainVm.cakes[index];
+                                return CategoryItem(cakeModel: item);
+                              },
                             ),
                           ),
-                        ],
+                        ),
                       );
                     },
                   ),

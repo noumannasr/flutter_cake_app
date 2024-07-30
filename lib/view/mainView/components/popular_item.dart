@@ -55,13 +55,6 @@ class PopularItem extends StatelessWidget {
                       SizedBox(
                         height: 2,
                       ),
-                      Text(
-                        cakeModel.type,
-                        style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
-                      ),
                     ],
                   ),
                 )

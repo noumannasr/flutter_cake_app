@@ -31,35 +31,28 @@ class CategoryItem extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
-          Center(
-            child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: CachedNetworkImage(
-                    imageUrl: cakeModel.cakeImage,
-                    fit: BoxFit.fitWidth,
-                  ),
-                )
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: CachedNetworkImage(
+              imageUrl: cakeModel.cakeImage,
+              fit: BoxFit.fitHeight,
             ),
           ),
-          Padding(
-            padding:  EdgeInsets.only(left: size.width*0.012, right: size.width*0.012),
-            child: Container(
-              height: size.height*0.06,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.white.withOpacity(0.7), //bg,
-              ),
-              child: Center(
-                  child: Text(
-                    cakeModel.cakeName,
-                    style: const TextStyle(
-                        color: Color(0xFF364B5F),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
-                  )),
+          Container(
+            height: size.height*0.06,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white.withOpacity(0.7), //bg,
             ),
+            child: Center(
+                child: Text(
+                  cakeModel.cakeName,
+                  style: const TextStyle(
+                      color: Color(0xFF364B5F),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                )),
           ),
         ],
       ),
