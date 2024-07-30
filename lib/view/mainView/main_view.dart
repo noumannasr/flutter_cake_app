@@ -22,6 +22,10 @@ class _MainViewState extends State<MainView> {
         .of(context)
         .size
         .height;
+    final deviceWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -43,103 +47,78 @@ class _MainViewState extends State<MainView> {
                     AppColors.secondaryColor,
                     AppColors.lightSecondaryColor,
                   ])),
-          child: Column(
+          child:  Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(30)),
-                        // color: Colors.white
-                      ),
-                      child: Consumer<MainVm>(
-                        builder: (context, mainVm, child) {
-                          return mainVm.isLoading ? const CircularProgressIndicator(
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(30),
+                        topLeft: Radius.circular(30)),
+                    // color: Colors.white
+                  ),
+                  child: Consumer<MainVm>(
+                    builder: (context, mainVm, child) {
+                      return mainVm.isLoading ? SizedBox(
+                        height: deviceHeight*0.5,
+                        width: deviceWidth,
+                        child: const Center(
+                          child: CircularProgressIndicator(
                             color: Colors.black,
-                          ) : Column(
-                            children: [
-                              // SizedBox(
-                              //   height: size.height * 0.2,
-                              // ),
-                              SizedBox(
-                                //height: deviceHeight * 0.28,
-                                child: FadeInUp(
-                                  delay: const Duration(milliseconds: 200),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10, top: 0, bottom: 0),
-                                    child: GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      gridDelegate:
-                                       SliverGridDelegateWithMaxCrossAxisExtent(
-                                        childAspectRatio: 0.79,
-                                        mainAxisSpacing: 0.0,
-                                        // Spacing between items on the main axis
-                                        crossAxisSpacing:
-                                        0.0, maxCrossAxisExtent: 200, // Spacing between items on the cross axis
-                                      ),
-                                      itemCount: mainVm.cakes.length,
-                                      itemBuilder: (context, index) {
-                                        final item = mainVm.cakes[index];
-                                        return CategoryItem(cakeModel: item);
-                                      },
-                                    ),
+                          ),
+                        ),
+                      ) :
+                      mainVm.isLoading == false && mainVm.cakes.isEmpty ?
+                      SizedBox(
+                        height: deviceHeight*0.5,
+                        width: deviceWidth,
+                        child: const Center(
+                            child: Text('No Recipes Found', style: TextStyle(color: Colors.black,),textAlign: TextAlign.center,)
+                        ),
+                      ) :
+
+                      Column(
+                        children: [
+                          // SizedBox(
+                          //   height: size.height * 0.2,
+                          // ),
+                          SizedBox(
+                            //height: deviceHeight * 0.28,
+                            child: FadeInUp(
+                              delay: const Duration(milliseconds: 200),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 0, bottom: 0),
+                                child: GridView.builder(
+                                  padding: EdgeInsets.zero,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    childAspectRatio: 0.79,
+                                    mainAxisSpacing: 0.0,
+                                    // Spacing between items on the main axis
+                                    crossAxisSpacing:
+                                    0.0, maxCrossAxisExtent: 200, // Spacing between items on the cross axis
                                   ),
+                                  itemCount: mainVm.cakes.length,
+                                  itemBuilder: (context, index) {
+                                    final item = mainVm.cakes[index];
+                                    return CategoryItem(cakeModel: item);
+                                  },
                                 ),
                               ),
-                            ],
-                          );
-                        },
-                      ),
-
-                    ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                  // FadeInUp(
-                  //   delay: const Duration(milliseconds: 400),
-                  //   child: Expanded(
-                  //     child: Column(
-                  //       mainAxisAlignment: MainAxisAlignment.start,
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         const Padding(
-                  //           padding: EdgeInsets.only(
-                  //             left: 12,
-                  //             bottom: 5,
-                  //             top: 10,
-                  //           ),
-                  //           child: Text(
-                  //             "Popular Cakes",
-                  //             style: TextStyle(
-                  //                 color: Colors.black,
-                  //                 fontWeight: FontWeight.bold,
-                  //                 fontSize: 15),
-                  //           ),
-                  //         ),
-                  //         SizedBox(
-                  //           height: deviceHeight * 0.5,
-                  //           child: ListView.builder(
-                  //               padding: EdgeInsets.zero,
-                  //               itemCount: MainVm.cakes.length,
-                  //               shrinkWrap: true,
-                  //               scrollDirection: Axis.vertical,
-                  //               itemBuilder: (context, index) {
-                  //                 final item = MainVm.cakes[index];
-                  //                 return PopularItem(cakeModel: item);
-                  //               }),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // )
-                ],
+
+                ),
               ),
             ],
           ),

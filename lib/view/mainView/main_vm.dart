@@ -8,7 +8,7 @@ import 'package:flutter_cake_app/model/cake_model.dart';
 class MainVm extends ChangeNotifier {
   late BuildContext context;
   List<CakeModel> _cakes = [];
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   bool get isLoading => _isLoading;
   List<CakeModel> get cakes => _cakes;
