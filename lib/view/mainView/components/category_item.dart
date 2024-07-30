@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/model/cake_model.dart';
 import 'package:flutter_cake_app/view/cakeDetail/cake_detail_view.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../../constants/constant.dart';
 
 class CategoryItem extends StatelessWidget {
   final CakeModel cakeModel;
@@ -34,6 +37,12 @@ class CategoryItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: CachedNetworkImage(
+              placeholder: (context, url) => Center(
+                  child:
+                  Lottie.asset('assets/lottie/lottie.json'), // Replace with your Lottie animation
+            ),
+                // Replace with your loading image path
+                errorWidget: (context, url, error) => Icon(Icons.error),
               imageUrl: cakeModel.cakeImage,
               fit: BoxFit.fitHeight,
             ),
