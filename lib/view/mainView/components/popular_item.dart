@@ -9,82 +9,58 @@ class PopularItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-
-      },
+      onTap: () {},
       child: Padding(
-        padding: const EdgeInsets.only(
-            left: 10,
-            right: 10,
-            bottom: 4,
-            top: 4),
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 4, top: 4),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius:
-            BorderRadius.circular(20),
-            color:
-            Colors.white.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white.withOpacity(0.4),
           ),
           child: Padding(
-            padding:
-            const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 ClipRRect(
-                  borderRadius:
-                  BorderRadius.circular(
-                      20),
+                  borderRadius: BorderRadius.circular(20),
                   child: CachedNetworkImage(
-                    imageUrl: cakeModel.image
-                    ,
+                    imageUrl: cakeModel.cakeImage,
                     height: 80,
                     width: 80,
                     fit: BoxFit.cover,
                   ),
                 ),
                 Padding(
-                  padding:
-                  const EdgeInsets.only(
-                      left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(cakeModel.title
-                        ,
+                      Text(
+                        cakeModel.cakeName,
                         style: TextStyle(
-                            color:
-                            Colors.black,
-                            fontWeight:
-                            FontWeight
-                                .w600,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
                             fontSize: 15),
                       ),
                       SizedBox(
                         height: 2,
                       ),
                       Text(
-                        cakeModel.time,
+                        cakeModel.cakeBakingTime,
                         style: TextStyle(
-                            color:
-                            Colors.grey,
+                            color: Colors.grey,
                             fontSize: 12,
-                            fontWeight:
-                            FontWeight
-                                .w400),
+                            fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
                         height: 2,
                       ),
-                      Text( cakeModel.type,
+                      Text(
+                        cakeModel.type,
                         style: TextStyle(
-                            color:
-                            Colors.black.withOpacity(0.7),
+                            color: Colors.black.withOpacity(0.7),
                             fontSize: 12,
-                            fontWeight:
-                            FontWeight
-                                .w500),
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),

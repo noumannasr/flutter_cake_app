@@ -1,8 +1,28 @@
 class CakeModel {
-  final String title;
-  final String image;
-  final String time;
+  final String cakeName;
+  final String cakeImage;
+  final String cakeBakingTime;
   final String type;
+  final String cakeIngredients;
+  final String cakeDirection;
 
-  CakeModel(this.title, this.image, this.time, this.type);
+  CakeModel(
+      {required this.cakeName,
+      required this.cakeImage,
+      required this.cakeBakingTime,
+      required this.type,
+      required this.cakeIngredients,
+      required this.cakeDirection});
+
+  factory CakeModel.fromMap(Map<String, dynamic> data) {
+    return CakeModel(
+        cakeName: data['cakeName'],
+        cakeImage: data['cakeImage'],
+        cakeBakingTime: data['cakeBakingTime'],
+        type: data['type'],
+        cakeIngredients: data['cakeIngredients'],
+        cakeDirection: data['cakeDirection']
+        // ... other fields
+        );
+  }
 }

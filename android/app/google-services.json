@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "791953399451",
+    "project_id": "flutter-cake-recipe-app",
+    "storage_bucket": "flutter-cake-recipe-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791953399451:android:f12c404b04e0df2348f03e",
+        "android_client_info": {
+          "package_name": "com.cakerecipes.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdBR2TO5DEWLeh_jLfzhIGXkBUPNWIsSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791953399451:android:3cb71e5f69a5ad9d48f03e",
+        "android_client_info": {
+          "package_name": "com.cakerecipesadmin.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdBR2TO5DEWLeh_jLfzhIGXkBUPNWIsSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
