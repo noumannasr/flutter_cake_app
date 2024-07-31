@@ -15,18 +15,12 @@ class CategoryItem extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(PageRouteBuilder(
-          pageBuilder: (context,
-              animation,
-              secondaryAnimation) =>
+        Navigator.of(context).push(PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
               CakeDetailView(
-                cakeModel: cakeModel,
-              ),
-          transitionsBuilder: (context,
-              animation,
-              secondaryAnimation,
-              child) {
+            cakeModel: cakeModel,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return child;
           },
         ));
@@ -38,34 +32,33 @@ class CategoryItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             child: CachedNetworkImage(
               placeholder: (context, url) => Center(
-                  child:
-                  Lottie.asset('assets/lottie/lottie.json'), // Replace with your Lottie animation
-            ),
-                // Replace with your loading image path
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                child: Lottie.asset(
+                    'assets/lottie/lottie.json'), // Replace with your Lottie animation
+              ),
+              // Replace with your loading image path
+              errorWidget: (context, url, error) => Icon(Icons.error),
               imageUrl: cakeModel.cakeImage,
               fit: BoxFit.fitHeight,
             ),
           ),
           Container(
-            height: size.height*0.06,
+            height: size.height * 0.06,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Colors.white.withOpacity(0.7), //bg,
             ),
             child: Center(
                 child: Text(
-                  cakeModel.cakeName,
-                  style: const TextStyle(
-                      color: Color(0xFF364B5F),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
-                )),
+              cakeModel.cakeName,
+              style: const TextStyle(
+                  color: Color(0xFF364B5F),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            )),
           ),
         ],
       ),
-
 
       // Container(
       //   decoration: BoxDecoration(

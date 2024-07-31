@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   if (Firebase.apps.isEmpty) {
     if (Platform.isIOS) {
     } else {

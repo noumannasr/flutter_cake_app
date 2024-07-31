@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/model/cake_model.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../constants/constant.dart';
 
@@ -13,105 +15,142 @@ class CakeDetailView extends StatefulWidget {
 }
 
 class _CakeDetailViewState extends State<CakeDetailView> {
+  final adService = AdService();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    adService.adDetail.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    adService.loadAdDetail();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.lightWhite,
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-              //borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                Color(0xFFffd7c8),
-                Color(0xFFfff9c6),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              height: height*0.9,
+              decoration: const BoxDecoration(
+                  //borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                    Color(0xFFffd7c8),
+                    Color(0xFFfff9c6),
 
-                //Colors.amberAccent,
-              ])),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                alignment: Alignment.bottomCenter,
+                    //Colors.amberAccent,
+                  ])),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                      height: height * 0.4,
-                      width: width,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.cakeModel.cakeImage.toString(),
-                        fit: BoxFit.cover,
-                      )),
-                  SizedBox(
-                    height: height * 0.4,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 14, top: 25),
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  color:
-                                      AppColors.primaryColor.withOpacity(0.8),
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                Icons.arrow_back_ios_new,
-                                color: Colors.black,
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      SizedBox(
+                          height: height * 0.4,
+                          width: width,
+                          child: CachedNetworkImage(
+                            imageUrl: widget.cakeModel.cakeImage.toString(),
+                            fit: BoxFit.cover,
+                          )),
+                      SizedBox(
+                        height: height * 0.4,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 14, top: 25),
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          AppColors.primaryColor.withOpacity(0.8),
+                                      shape: BoxShape.circle),
+                                  child: Icon(
+                                    Icons.arrow_back_ios_new,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          width: width,
-                          height: height * 0.07,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.5),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 12,
-                              bottom: 5,
-                              top: 10,
+                            Container(
+                              width: width,
+                              height: height * 0.07,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 12,
+                                  bottom: 5,
+                                  top: 10,
+                                ),
+                                child: Text(
+                                  widget.cakeModel.cakeName,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 23),
+                                ),
+                              ),
                             ),
-                            child: Text(
-                              widget.cakeModel.cakeName,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 23),
-                            ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
+                  DetailItem(
+                    title: 'Ingredients',
+                    text: widget.cakeModel.cakeIngredients,
+                  ),
+                  DetailItem(
+                    title: 'Direction',
+                    text: widget.cakeModel.cakeDirection,
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
                   ),
                 ],
               ),
-              DetailItem(
-                title: 'Ingredients',
-                text: widget.cakeModel.cakeIngredients,
-              ),
-              DetailItem(
-                title: 'Direction',
-                text: widget.cakeModel.cakeDirection,
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-            ],
+            ),
           ),
-        ),
+          SizedBox(
+            height: height*0.08,
+            child: FutureBuilder<void>(
+              future: adService.loadAdDetail(),
+              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error loading ad: ${snapshot.error}');
+                } else {
+                  return AdWidget(ad: adService.adDetail);
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
