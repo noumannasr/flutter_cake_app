@@ -31,7 +31,7 @@ class MainVm extends ChangeNotifier {
     setLoading(true);
     try {
       final QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('CakeRecipes').get();
+          await FirebaseFirestore.instance.collection('CakeRecipes').where('isActive', isEqualTo: true).get();
 
       for (var doc in querySnapshot.docs) {
         try {

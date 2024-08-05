@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
@@ -31,7 +32,15 @@ class _MainViewState extends State<MainView> {
   void initState() {
     // TODO: implement initState
     adService.loadAdHome();
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    FirebaseAnalytics.instance.setCurrentScreen(screenName: "Main Screen");
+    super.didChangeDependencies();
   }
 
   @override

@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/model/cake_model.dart';
 import 'package:flutter_cake_app/view/cakeDetail/cake_detail_view.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../../constants/constant.dart';
 
 class CategoryItem extends StatelessWidget {
   final CakeModel cakeModel;
@@ -15,6 +14,17 @@ class CategoryItem extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     return GestureDetector(
       onTap: () {
+        FirebaseAnalytics.instance.setUserProperty(
+            name: 'Cake Recipies', value: cakeModel.cakeName.toString());
+
+        FirebaseAnalytics.instance.logEvent(
+          name: '${cakeModel.cakeName.toString()}',
+          parameters: {
+            'sample_string': 'clicked',
+            'sample_int': 1,
+          },
+        );
+
         Navigator.of(context).push(PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               CakeDetailView(
