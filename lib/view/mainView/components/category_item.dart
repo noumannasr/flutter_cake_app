@@ -25,15 +25,15 @@ class CategoryItem extends StatelessWidget {
           },
         );
 
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              CakeDetailView(
-            cakeModel: cakeModel,
-          ),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return child;
-          },
-        ));
+        // Navigator.of(context).push(PageRouteBuilder(
+        //   pageBuilder: (context, animation, secondaryAnimation) =>
+        //       CakeDetailView(
+        //     cakeModel: cakeModel,
+        //   ),
+        //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        //     return child;
+        //   },
+        // ));
       },
       child: Stack(
         alignment: Alignment.bottomLeft,

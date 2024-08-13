@@ -2,13 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/model/cake_model.dart';
+import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../constants/constant.dart';
 
 class CakeDetailView extends StatefulWidget {
-  final CakeModel cakeModel;
-  const CakeDetailView({super.key, required this.cakeModel});
+  final ProductModel productModel;
+  const CakeDetailView({super.key, required this.productModel});
 
   @override
   State<CakeDetailView> createState() => _CakeDetailViewState();
@@ -65,7 +66,7 @@ class _CakeDetailViewState extends State<CakeDetailView> {
                           height: height * 0.4,
                           width: width,
                           child: CachedNetworkImage(
-                            imageUrl: widget.cakeModel.cakeImage.toString(),
+                            imageUrl: widget.productModel.productImage.toString(),
                             fit: BoxFit.cover,
                           )),
                       SizedBox(
@@ -107,7 +108,7 @@ class _CakeDetailViewState extends State<CakeDetailView> {
                                   top: 10,
                                 ),
                                 child: Text(
-                                  widget.cakeModel.cakeName,
+                                  widget.productModel.productName,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -122,11 +123,11 @@ class _CakeDetailViewState extends State<CakeDetailView> {
                   ),
                   DetailItem(
                     title: 'Ingredients',
-                    text: widget.cakeModel.cakeIngredients,
+                    text: widget.productModel.ingredients,
                   ),
                   DetailItem(
                     title: 'Direction',
-                    text: widget.cakeModel.cakeDirection,
+                    text: widget.productModel.direction,
                   ),
                   SizedBox(
                     height: height * 0.02,
