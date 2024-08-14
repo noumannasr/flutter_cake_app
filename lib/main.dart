@@ -66,9 +66,7 @@ class MyApp extends StatelessWidget {
           // tested with just a hot reload.
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-          textTheme: GoogleFonts.latoTextTheme(textTheme).copyWith(
-            bodyMedium: GoogleFonts.oswald(textStyle: textTheme.bodyMedium),
-          ),
+          textTheme: GoogleFonts.montserratTextTheme(textTheme),
         ),
         home: const MainView(),
       ),

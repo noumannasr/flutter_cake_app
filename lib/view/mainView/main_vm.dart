@@ -6,23 +6,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_images.dart';
 import 'package:flutter_cake_app/model/cake_model.dart';
+import 'package:flutter_cake_app/model/category_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 
 class MainVm extends ChangeNotifier {
   late BuildContext context;
-  List<CakeModel> _cakes = [];
+  List<CategoryModel> _categories = [];
   bool _isLoading = true;
   final finalData = <String, List<ProductModel>>{};
   late Stream<Map<String, List<ProductModel>>> _categoriesAndProductsStream;
 
   bool get isLoading => _isLoading;
   Stream<Map<String, List<ProductModel>>> get categoriesAndProductsStream => _categoriesAndProductsStream;
-  List<CakeModel> get cakes => _cakes;
+  List<CategoryModel> get categories => _categories;
 
   MainVm(this.context) {
     print( ' We are here');
     mapCategoriesAndProducts();
-    getCakeData();
+    getCategoriesData();
 
   }
 
@@ -36,18 +37,18 @@ class MainVm extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<List<CakeModel>> getCakeData() async {
+  Future<List<CategoryModel>> getCategoriesData() async {
     mapCategoriesAndProducts();
     setLoading(true);
     try {
       final QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('CakeRecipes').where('isActive', isEqualTo: true).get();
+          await FirebaseFirestore.instance.collection('Categories').where('isActive', isEqualTo: false).get();
 
       for (var doc in querySnapshot.docs) {
         try {
           final data = doc.data() as Map<String, dynamic>;
-          final cake = CakeModel.fromMap(data);
-          _cakes.add(cake);
+          final categoryModel = CategoryModel.fromMap(data);
+          _categories.add(categoryModel);
           notifyListeners();
         } catch (e) {
           // Handle data conversion errors or invalid data
@@ -66,7 +67,7 @@ class MainVm extends ChangeNotifier {
       // Consider logging the error or handling it differently
     }
 
-    return _cakes;
+    return _categories;
   }
 
   setStream() {
