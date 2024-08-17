@@ -19,9 +19,9 @@ class AppDrawer extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.topRight,
                     colors: [
-                      AppColors.secondaryColor,
-                      AppColors.primaryColor,
-                    ])),
+                  AppColors.secondaryColor,
+                  AppColors.primaryColor,
+                ])),
             child: Column(
               children: [
                 Padding(
@@ -53,16 +53,14 @@ class AppDrawer extends StatelessWidget {
                     return Column(
                       children: [
                         ListTile(
-
                           leading: Icon(item.icon),
                           title: Text(item.name),
                           trailing: Icon(
                             Icons.arrow_forward_ios,
                             size: 14,
                           ),
-
                           onTap: () {
-                           mainVm.onDrawerItemTapped(index, context);
+                            mainVm.onDrawerItemTapped(index, context);
                           },
                           dense: false,
                           minVerticalPadding: 0.0,
@@ -74,7 +72,6 @@ class AppDrawer extends StatelessWidget {
                   },
                 );
               }),
-
         ],
       ),
     );
