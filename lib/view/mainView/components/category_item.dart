@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cake_app/model/cake_model.dart';
+import 'package:flutter_cake_app/constants/app_images.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
-import 'package:flutter_cake_app/view/cakeDetail/cake_detail_view.dart';
 import 'package:lottie/lottie.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel categoryModel;
-  const CategoryItem({super.key, required this.categoryModel});
+  final Function() onTap;
+  const CategoryItem({super.key, required this.categoryModel, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,28 +15,7 @@ class CategoryItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
-        onTap: () {
-          FirebaseAnalytics.instance.setUserProperty(
-              name: 'Cake Recipies', value: categoryModel.categoryName.toString());
-
-          FirebaseAnalytics.instance.logEvent(
-            name: '${categoryModel.categoryName.toString()}',
-            parameters: {
-              'sample_string': 'clicked',
-              'sample_int': 1,
-            },
-          );
-
-          // Navigator.of(context).push(PageRouteBuilder(
-          //   pageBuilder: (context, animation, secondaryAnimation) =>
-          //       CakeDetailView(
-          //     cakeModel: cakeModel,
-          //   ),
-          //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          //     return child;
-          //   },
-          // ));
-        },
+        onTap: onTap,
         child: Container(
           height: size.height*0.13,
           width: size.width*0.3,
@@ -57,7 +35,7 @@ class CategoryItem extends StatelessWidget {
                   width: size.width*0.3,
                   placeholder: (context, url) => Center(
                     child: Lottie.asset(
-                        'assets/lottie/lottie.json'), // Replace with your Lottie animation
+                        AppImages.lottieImageLoading), // Replace with your Lottie animation
                   ),
                   // Replace with your loading image path
                   errorWidget: (context, url, error) => Icon(Icons.error),
@@ -75,7 +53,8 @@ class CategoryItem extends StatelessWidget {
                   child: Center(
                       child: Text(
                         categoryModel.categoryName,
-
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: Color(0xFF364B5F),
                         fontSize: 12,

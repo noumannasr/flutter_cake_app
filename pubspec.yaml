@@ -47,7 +47,12 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   lottie: ^3.1.2
   google_mobile_ads: ^5.1.0
+  searchable_listview: ^2.15.0
   scrollable_list_tab_scroller: ^3.1.0
+  share_plus: ^9.0.0
+  url_launcher: ^6.3.0
+
+
 
 
   #firebase

@@ -1,21 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/adService/ad_service.dart';
+import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/model/cake_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../../constants/constant.dart';
-
-class CakeDetailView extends StatefulWidget {
+class ProductDetailView extends StatefulWidget {
   final ProductModel productModel;
-  const CakeDetailView({super.key, required this.productModel});
+  const ProductDetailView({super.key, required this.productModel});
 
   @override
-  State<CakeDetailView> createState() => _CakeDetailViewState();
+  State<ProductDetailView> createState() => _ProductDetailViewState();
 }
 
-class _CakeDetailViewState extends State<CakeDetailView> {
+class _ProductDetailViewState extends State<ProductDetailView> {
   final adService = AdService();
 
   @override
@@ -28,6 +28,7 @@ class _CakeDetailViewState extends State<CakeDetailView> {
   @override
   void initState() {
     // TODO: implement initState
+    FirebaseAnalytics.instance.logEvent(name: 'product_detail_view');
     adService.loadAdDetail();
     super.initState();
   }
@@ -37,13 +38,14 @@ class _CakeDetailViewState extends State<CakeDetailView> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.lightWhite,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SingleChildScrollView(
             child: Container(
-              height: height*0.9,
+              height: height * 0.9,
               decoration: const BoxDecoration(
                   //borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
@@ -66,7 +68,8 @@ class _CakeDetailViewState extends State<CakeDetailView> {
                           height: height * 0.4,
                           width: width,
                           child: CachedNetworkImage(
-                            imageUrl: widget.productModel.productImage.toString(),
+                            imageUrl:
+                                widget.productModel.productImage.toString(),
                             fit: BoxFit.cover,
                           )),
                       SizedBox(
@@ -80,13 +83,14 @@ class _CakeDetailViewState extends State<CakeDetailView> {
                                 Navigator.pop(context);
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 14, top: 25),
+                                padding:
+                                    const EdgeInsets.only(left: 14, top: 25),
                                 child: Container(
                                   height: 40,
                                   width: 40,
                                   decoration: BoxDecoration(
-                                      color:
-                                          AppColors.primaryColor.withOpacity(0.8),
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.8),
                                       shape: BoxShape.circle),
                                   child: Icon(
                                     Icons.arrow_back_ios_new,
@@ -137,7 +141,7 @@ class _CakeDetailViewState extends State<CakeDetailView> {
             ),
           ),
           SizedBox(
-            height: height*0.08,
+            height: height * 0.08,
             child: FutureBuilder<void>(
               future: adService.loadAdDetail(),
               builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
