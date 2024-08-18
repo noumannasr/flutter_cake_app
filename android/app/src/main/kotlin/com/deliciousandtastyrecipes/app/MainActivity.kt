@@ -1,4 +1,4 @@
-package com.cakerecipes.app
+package com.deliciousandtastyrecipes.app
 
 import io.flutter.embedding.android.FlutterActivity
 

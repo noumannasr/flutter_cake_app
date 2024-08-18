@@ -1,9 +1,8 @@
-import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:flutter_cake_app/view/categories/categories_view.dart';
@@ -36,8 +35,8 @@ class MainVm extends ChangeNotifier {
     init();
   }
 
-  init() {
-    print(' We are here');
+  void init() {
+    print(' We are in init');
     removeFocus();
     _categories.clear();
     _productsList.clear();
@@ -46,6 +45,21 @@ class MainVm extends ChangeNotifier {
     mapCategoriesAndProducts();
     getProductsData();
     getCategoriesData();
+    notifyListeners();
+  }
+
+  Future<void> refreshData() async {
+    // Simulate a network call or data refresh
+    print(' We are in refresh data');
+    await Future.delayed(Duration(seconds: 1));
+    removeFocus();
+    _categories.clear();
+    _productsList.clear();
+    _filteredList.clear();
+    notifyListeners();
+    getCategoriesData();
+    getProductsData();
+
   }
 
   setLoading(bool status) {
@@ -116,6 +130,7 @@ class MainVm extends ChangeNotifier {
   }
 
   void getProductsData() async {
+
     setProductLoading(true);
     try {
       final firestore = FirebaseFirestore.instance;
@@ -146,9 +161,9 @@ class MainVm extends ChangeNotifier {
     print(' We are here');
     setLoading(true);
     final categoriesSnapshot =
-        await FirebaseFirestore.instance.collection('Categories').get();
+        await FirebaseFirestore.instance.collection('Categories').where('isActive', isEqualTo: true).get();
     final productsSnapshot =
-        await FirebaseFirestore.instance.collection('Products').get();
+        await FirebaseFirestore.instance.collection('Products').where('isActive', isEqualTo: true).get();
 
     final categories = categoriesSnapshot.docs;
     final products = productsSnapshot.docs;
@@ -187,13 +202,15 @@ class MainVm extends ChangeNotifier {
         ));
         break;
       case 2:
-        Share.share('Your text here');
+        Share.share(AppText.appLink);
         print('Share Tap drawer');
         break;
       case 3:
+        launchURL(AppText.appLink);
         print('rate Tap drawer');
         break;
       case 4:
+        launchURL(AppText.moreApps);
         print('More Tap drawer');
         break;
       case 5:
@@ -203,6 +220,7 @@ class MainVm extends ChangeNotifier {
       case 6:
         print('credit Tap drawer');
       case 7:
+        launchURL(AppText.privacyPolicyPageUrl);
         print('privacy Tap drawer');
       case 8:
         print('version Tap drawer');
@@ -216,7 +234,7 @@ class MainVm extends ChangeNotifier {
   void launchEmail() async {
     final Uri emailUri = Uri(
       scheme: 'mailto',
-      path: 'developerzone3@gmail.com', // Replace with the recipient email
+      path: AppText.supportEmail, // Replace with the recipient email
       queryParameters: {
         'subject': '', // Optional: set a default subject
         'body': '', // Optional: set default body
@@ -230,4 +248,13 @@ class MainVm extends ChangeNotifier {
       throw 'Could not launch email client';
     }
   }
+
+  void launchURL(String link) async {
+    if (await canLaunch(link)) {
+      await launch(link);
+    } else {
+      throw 'Could not launch $link';
+    }
+  }
+
 }

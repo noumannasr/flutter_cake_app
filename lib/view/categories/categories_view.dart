@@ -16,12 +16,12 @@ class CategoriesView extends StatefulWidget {
 }
 
 class _CategoriesViewState extends State<CategoriesView> {
-  final adService = AdService();
+  //final adService = AdService();
 
   @override
   void dispose() {
     // TODO: implement dispose
-    adService.adCategoriesView.dispose();
+   // adService.adCategoriesView.dispose();
 
     super.dispose();
   }
@@ -29,7 +29,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   @override
   void initState() {
     // TODO: implement initState
-    adService.loadAdCategories();
+   // adService.loadAdCategories();
     FirebaseAnalytics.instance.logEvent(name: 'Categories_View_screen');
     super.initState();
   }

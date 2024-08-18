@@ -27,7 +27,7 @@ class AppDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
-                    backgroundImage: AssetImage(AppImages.appIcon),
+                    backgroundImage: AssetImage(AppImages.appIcon,),
                     radius: 40,
                   ),
                 ),
@@ -55,7 +55,7 @@ class AppDrawer extends StatelessWidget {
                         ListTile(
                           leading: Icon(item.icon),
                           title: Text(item.name),
-                          trailing: Icon(
+                          trailing: index == 8 ? Text("1.0.0") : Icon(
                             Icons.arrow_forward_ios,
                             size: 14,
                           ),

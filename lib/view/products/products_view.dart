@@ -19,12 +19,12 @@ class ProductsView extends StatefulWidget {
 }
 
 class _ProductsViewState extends State<ProductsView> {
-  final adService = AdService();
+  //final adService = AdService();
 
   @override
   void dispose() {
     // TODO: implement dispose
-    adService.adProductsView.dispose();
+    //adService.adProductsView.dispose();
 
     super.dispose();
   }
@@ -32,7 +32,7 @@ class _ProductsViewState extends State<ProductsView> {
   @override
   void initState() {
     // TODO: implement initState
-    adService.loadAdProducts();
+    //adService.loadAdProducts();
     FirebaseAnalytics.instance.logEvent(name: 'Products_View_screen');
     super.initState();
   }
@@ -74,7 +74,7 @@ class _ProductsViewState extends State<ProductsView> {
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Products')
-              .where('category', isEqualTo: widget.categoryName.toString())
+              .where('category', isEqualTo: widget.categoryName.toString()).where('isActive', isEqualTo: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {

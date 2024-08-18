@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,7 @@ void main() async {
   }
   FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 

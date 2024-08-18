@@ -37,14 +37,25 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.lightWhite,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SingleChildScrollView(
-            child: Container(
+    return Container(
+      decoration: const BoxDecoration(
+        //borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppColors.secondaryColor,
+                AppColors.primaryColor,
+
+                //Colors.amberAccent,
+              ])),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
               height: height * 0.9,
               decoration: const BoxDecoration(
                   //borderRadius: BorderRadius.circular(20),
@@ -52,110 +63,112 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                    Color(0xFFffd7c8),
-                    Color(0xFFfff9c6),
+                        AppColors.secondaryColor,
+                        AppColors.primaryColor,
 
                     //Colors.amberAccent,
                   ])),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      SizedBox(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        SizedBox(
+                            height: height * 0.4,
+                            width: width,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  widget.productModel.productImage.toString(),
+                              fit: BoxFit.cover,
+                            )),
+                        SizedBox(
                           height: height * 0.4,
-                          width: width,
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                widget.productModel.productImage.toString(),
-                            fit: BoxFit.cover,
-                          )),
-                      SizedBox(
-                        height: height * 0.4,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 14, top: 25),
-                                child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.8),
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    Icons.arrow_back_ios_new,
-                                    color: Colors.black,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 14, top: 25),
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.primaryColor
+                                            .withOpacity(0.8),
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.arrow_back_ios_new,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              width: width,
-                              height: height * 0.07,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 12,
-                                  bottom: 5,
-                                  top: 10,
+                              Container(
+                                width: width,
+                                height: height * 0.07,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.5),
                                 ),
-                                child: Text(
-                                  widget.productModel.productName,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 23),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 12,
+                                    bottom: 5,
+                                    top: 10,
+                                  ),
+                                  child: Text(
+                                    widget.productModel.productName,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 23),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  DetailItem(
-                    title: 'Ingredients',
-                    text: widget.productModel.ingredients,
-                  ),
-                  DetailItem(
-                    title: 'Direction',
-                    text: widget.productModel.direction,
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                ],
+                      ],
+                    ),
+                    DetailItem(
+                      title: 'Ingredients',
+                      text: widget.productModel.ingredients,
+                    ),
+                    DetailItem(
+                      title: 'Direction',
+                      text: widget.productModel.direction,
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: height * 0.08,
-            child: FutureBuilder<void>(
-              future: adService.loadAdDetail(),
-              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Text('Error loading ad: ${snapshot.error}');
-                } else {
-                  return AdWidget(ad: adService.adDetail);
-                }
-              },
-            ),
-          ),
-        ],
+            // SizedBox(
+            //   height: height * 0.08,
+            //   child: FutureBuilder<void>(
+            //     future: adService.loadAdDetail(),
+            //     builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.waiting) {
+            //         return const Center(child: CircularProgressIndicator());
+            //       } else if (snapshot.hasError) {
+            //         return Text('Error loading ad: ${snapshot.error}');
+            //       } else {
+            //         return AdWidget(ad: adService.adDetail);
+            //       }
+            //     },
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }
