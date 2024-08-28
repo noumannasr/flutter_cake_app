@@ -1,6 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:flutter_cake_app/view/categories/categories_view.dart';
