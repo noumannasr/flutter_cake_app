@@ -64,51 +64,6 @@ class CategoryItem extends StatelessWidget {
             ],
           ),
         ),
-
-        // Container(
-        //   decoration: BoxDecoration(
-        //     color: Colors.white.withOpacity(0.4), //bg,
-        //     borderRadius: BorderRadius.circular(15),
-        //   ),
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: [
-        //       Center(
-        //         child: Container(
-        //             height: size.height*0.15,
-        //             width: size.width,
-        //             decoration: BoxDecoration(
-        //               shape: BoxShape.circle,
-        //             ),
-        //             padding: const EdgeInsets.all(0),
-        //             child: Center(
-        //                 child: ClipRRect(
-        //                   borderRadius: BorderRadius.circular(10),
-        //                   child: CachedNetworkImage(
-        //                     imageUrl: cakeModel.cakeImage,
-        //                     fit: BoxFit.cover,
-        //                   ),
-        //                 )
-        //             )
-        //         ),
-        //       ),
-        //       const SizedBox(height: 8),
-        //       Center(
-        //           child: Padding(
-        //             padding: const EdgeInsets.only(left: 10, right: 10),
-        //             child: Text(
-        //               cakeModel.cakeName,
-        //               style: const TextStyle(
-        //                   color: Color(0xFF364B5F),
-        //                   fontSize: 16,
-        //                   fontWeight: FontWeight.w600),
-        //               textAlign: TextAlign.center,
-        //             ),
-        //           ))
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }
