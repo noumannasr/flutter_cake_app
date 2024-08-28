@@ -5,10 +5,12 @@ import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/model/cake_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class ProductDetailView extends StatefulWidget {
   final ProductModel productModel;
+
   const ProductDetailView({super.key, required this.productModel});
 
   @override
@@ -39,19 +41,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     final width = MediaQuery.of(context).size.width;
     return Container(
       decoration: const BoxDecoration(
-        //borderRadius: BorderRadius.circular(20),
+          //borderRadius: BorderRadius.circular(20),
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                AppColors.secondaryColor,
-                AppColors.primaryColor,
+            AppColors.secondaryColor,
+            AppColors.primaryColor,
 
-                //Colors.amberAccent,
-              ])),
+            //Colors.amberAccent,
+          ])),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -63,8 +64,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        AppColors.secondaryColor,
-                        AppColors.primaryColor,
+                    AppColors.secondaryColor,
+                    AppColors.primaryColor,
 
                     //Colors.amberAccent,
                   ])),
@@ -177,6 +178,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 class DetailItem extends StatelessWidget {
   final String title;
   final String text;
+
   const DetailItem({
     super.key,
     required this.title,
@@ -212,12 +214,20 @@ class DetailItem extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Text(
-                text,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14),
+              child: Html(
+                shrinkWrap: true,
+                data: text,
+                style: {
+                  "body":
+                      Style(margin: Margins.zero, padding: HtmlPaddings.zero),
+                  "html": Style(
+                      textAlign: TextAlign.left,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                      fontSize: FontSize.medium,
+                      margin: Margins.zero,
+                      padding: HtmlPaddings.zero),
+                },
               ),
             ),
           ),
