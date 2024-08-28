@@ -24,7 +24,6 @@ class CategoryItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            // alignment: Alignment.bottomLeft,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
