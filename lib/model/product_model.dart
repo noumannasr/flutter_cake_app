@@ -9,11 +9,17 @@ class ProductModel {
   final String ingredients;
   final bool isActive;
 
+  ProductModel(
+      {required this.categoryName,
+      required this.productName,
+      required this.productImage,
+      required this.cockingTime,
+      required this.direction,
+      required this.ingredients,
+      required this.isActive});
 
-  ProductModel(  {required this.categoryName,required this.productName,required this.productImage,required this.cockingTime,required this.direction, required this.ingredients, required this.isActive});
-
-
-  factory ProductModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory ProductModel.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return ProductModel(
       productName: data['productName'],
@@ -27,4 +33,13 @@ class ProductModel {
     );
   }
 
+  factory ProductModel.initial() => ProductModel(
+        categoryName: '',
+        productName: '',
+        productImage: '',
+        cockingTime: '',
+        direction: '',
+        ingredients: '',
+        isActive: false,
+      );
 }

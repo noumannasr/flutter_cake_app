@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
-import 'package:flutter_cake_app/view/productDetail/product_detail_view.dart';
+import 'package:flutter_cake_app/view/mainView/main_view.dart';
 
 class ProductItem extends StatelessWidget {
   final ProductModel productModel;
+
   const ProductItem({super.key, required this.productModel});
 
   @override
@@ -14,13 +16,11 @@ class ProductItem extends StatelessWidget {
       onTap: () {
         FirebaseAnalytics.instance
             .logEvent(name: productModel.productName.toString());
-        Navigator.of(context).push(
-            PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => ProductDetailView(productModel: productModel,),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return child;
-          },
-        ));
+        AppAdsIds.showInterstitialAd(
+          navigationEnum: NavigationScreensEnum.productsItem,
+          context: context,
+          productModel: productModel,
+        );
       },
       leading: Container(
         height: 60,

@@ -7,7 +7,9 @@ import 'package:lottie/lottie.dart';
 class CategoryItem extends StatelessWidget {
   final CategoryModel categoryModel;
   final Function() onTap;
-  const CategoryItem({super.key, required this.categoryModel, required this.onTap});
+
+  const CategoryItem(
+      {super.key, required this.categoryModel, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +19,8 @@ class CategoryItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          height: size.height*0.13,
-          width: size.width*0.3,
+          height: size.height * 0.13,
+          width: size.width * 0.3,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -30,11 +32,11 @@ class CategoryItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
-                  height: size.height*0.095,
-                  width: size.width*0.3,
+                  height: size.height * 0.095,
+                  width: size.width * 0.3,
                   placeholder: (context, url) => Center(
-                    child: Lottie.asset(
-                        AppImages.lottieImageLoading), // Replace with your Lottie animation
+                    child: Lottie.asset(AppImages
+                        .lottieImageLoading), // Replace with your Lottie animation
                   ),
                   // Replace with your loading image path
                   errorWidget: (context, url, error) => Icon(Icons.error),
@@ -50,7 +52,7 @@ class CategoryItem extends StatelessWidget {
                   ),
                   child: Center(
                       child: Text(
-                        categoryModel.categoryName,
+                    categoryModel.categoryName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(

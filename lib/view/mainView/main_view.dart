@@ -1,13 +1,21 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_cake_app/adService/ad_service.dart';
+import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
+import 'package:flutter_cake_app/constants/app_texts.dart';
+import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
-import 'package:flutter_cake_app/view/categories/categories_view.dart';
+import 'package:flutter_cake_app/utils/app_config.dart';
+import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/mainView/components/category_item.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
-import 'package:flutter_cake_app/view/products/products_view.dart';
 import 'package:flutter_cake_app/widgets/app_drawer.dart';
+import 'package:flutter_cake_app/widgets/material_button.dart';
 import 'package:flutter_cake_app/widgets/product_item.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_list_tab_scroller/scrollable_list_tab_scroller.dart';
 import 'package:searchable_listview/searchable_listview.dart';
@@ -20,60 +28,95 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  //final adService = AdService();
+  final adService = AdService();
 
   @override
   void dispose() {
-    //adService.adHome.dispose();
     Provider.of<MainVm>(context).focusNode.dispose();
+    adService.adHome.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    // adService.loadAdHome();
-    //  Provider.of<MainVm>(context).getProductsData();
-    //  Provider.of<MainVm>(context).getCategoriesData();
-    //  Provider.of<MainVm>(context).mapCategoriesAndProducts();
-    FirebaseAnalytics.instance.logEvent(name: 'MainScreen');
+    Utils.firebaseAnalyticsLogEvent(dashboardScreen);
+    versionCheck();
     super.initState();
+  }
 
-    // Call the provider constructor after a delay
+  Future<void> versionCheck() async {
+    double currentVersion = double.parse(
+        AppConfig().packageInfo.version.trim().replaceAll(".", ""));
+
+    print("Current Version is:" + currentVersion.toString());
+
+    //Get Latest version info from firebase config
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+
+    try {
+      // Using zero duration to force fetching from remote server.
+      await remoteConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: const Duration(seconds: 0),
+        minimumFetchInterval: Duration.zero,
+      ));
+
+      await remoteConfig.fetchAndActivate();
+      double newVersion = double.parse(
+          remoteConfig.getString('app_version').trim().replaceAll(".", ""));
+      print("Remote Config Version is:" + newVersion.toString());
+      if (newVersion > currentVersion) {
+        Utils.showVersionDialog(
+          context: context,
+          onTap: () {
+            Utils.launchURL(Uri.parse(AppText.appLink));
+          },
+        );
+      }
+    } on PlatformException catch (exception) {
+      // Fetch throttled.
+      debugPrint(exception.message.toString());
+    } catch (exception) {
+      debugPrint(
+          'Unable to fetch remote config. Cached or default values will be '
+          'used');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHeight = MediaQuery.sizeOf(context).height;
+    final deviceWidth = MediaQuery.sizeOf(context).width;
 
     return Container(
       decoration: const BoxDecoration(
-          //borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.topRight,
-              colors: [
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.topRight,
+          colors: [
             AppColors.secondaryColor,
             AppColors.primaryColor,
-          ])),
+          ],
+        ),
+      ),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
-                //borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.topRight,
-                    colors: [
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+                colors: [
                   AppColors.secondaryColor,
                   AppColors.primaryColor,
-                ])),
+                ],
+              ),
+            ),
           ),
           backgroundColor: AppColors.primaryColor,
           title: const Text(
-            "Delicious & Tasty Recipes",
+            AppText.appName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -107,6 +150,27 @@ class _MainViewState extends State<MainView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+                                    SizedBox(
+                                      height: deviceHeight * 0.08,
+                                      child: FutureBuilder<void>(
+                                        future: adService.loadAdHome(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<void> snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          } else if (snapshot.hasError) {
+                                            return Text(
+                                                'Error loading ad: ${snapshot.error}');
+                                          } else {
+                                            return AdWidget(
+                                                ad: adService.adHome);
+                                          }
+                                        },
+                                      ),
+                                    ),
                                     mainVm.productsList.isEmpty
                                         ? SizedBox()
                                         : Center(
@@ -239,22 +303,15 @@ class _MainViewState extends State<MainView> {
                                                                   .logEvent(
                                                                       name:
                                                                           'See_all_categories');
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .push(
-                                                                      PageRouteBuilder(
-                                                                pageBuilder: (context,
-                                                                        animation,
-                                                                        secondaryAnimation) =>
-                                                                    CategoriesView(),
-                                                                transitionsBuilder:
-                                                                    (context,
-                                                                        animation,
-                                                                        secondaryAnimation,
-                                                                        child) {
-                                                                  return child;
-                                                                },
-                                                              ));
+
+                                                              AppAdsIds
+                                                                  .showInterstitialAd(
+                                                                navigationEnum:
+                                                                    NavigationScreensEnum
+                                                                        .seeAllCategories,
+                                                                context:
+                                                                    context,
+                                                              );
                                                             },
                                                             child: Text(
                                                               'See all',
@@ -285,62 +342,61 @@ class _MainViewState extends State<MainView> {
                                                           color: Colors.blue,
                                                           child:
                                                               ListView.builder(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  scrollDirection:
-                                                                      Axis
-                                                                          .horizontal,
-                                                                  itemCount: mainVm
-                                                                      .categories
-                                                                      .length,
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          index) {
-                                                                    final item =
-                                                                        mainVm.categories[
-                                                                            index];
-                                                                    return CategoryItem(
-                                                                      categoryModel:
-                                                                          mainVm
-                                                                              .categories[index],
-                                                                      onTap:
-                                                                          () {
-                                                                        FirebaseAnalytics.instance.setUserProperty(
-                                                                            name:
-                                                                                'MainCategorySlider',
-                                                                            value:
-                                                                                item.categoryName.toString());
-
-                                                                        FirebaseAnalytics
-                                                                            .instance
-                                                                            .logEvent(
+                                                            padding:
+                                                                EdgeInsets.zero,
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            itemCount: mainVm
+                                                                .categories
+                                                                .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              final item = mainVm
+                                                                      .categories[
+                                                                  index];
+                                                              return CategoryItem(
+                                                                categoryModel:
+                                                                    mainVm.categories[
+                                                                        index],
+                                                                onTap: () {
+                                                                  FirebaseAnalytics
+                                                                      .instance
+                                                                      .setUserProperty(
                                                                           name:
-                                                                              '${item.categoryName.toString()}',
-                                                                          parameters: {
-                                                                            'sample_string':
-                                                                                'clicked',
-                                                                            'sample_int':
-                                                                                1,
-                                                                          },
-                                                                        );
+                                                                              'MainCategorySlider',
+                                                                          value: item
+                                                                              .categoryName
+                                                                              .toString());
 
-                                                                        Navigator.of(context)
-                                                                            .push(PageRouteBuilder(
-                                                                          pageBuilder: (context, animation, secondaryAnimation) =>
-                                                                              ProductsView(categoryName: item.categoryName),
-                                                                          transitionsBuilder: (context,
-                                                                              animation,
-                                                                              secondaryAnimation,
-                                                                              child) {
-                                                                            return child;
-                                                                          },
-                                                                        ));
-                                                                      },
-                                                                    );
-                                                                  }),
+                                                                  FirebaseAnalytics
+                                                                      .instance
+                                                                      .logEvent(
+                                                                    name:
+                                                                        '${item.categoryName.toString()}',
+                                                                    parameters: {
+                                                                      'sample_string':
+                                                                          'clicked',
+                                                                      'sample_int':
+                                                                          1,
+                                                                    },
+                                                                  );
+
+                                                                  AppAdsIds
+                                                                      .showInterstitialAd(
+                                                                    navigationEnum:
+                                                                        NavigationScreensEnum
+                                                                            .categoriesItem,
+                                                                    context:
+                                                                        context,
+                                                                    categoryName:
+                                                                        item.categoryName,
+                                                                  );
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -349,8 +405,11 @@ class _MainViewState extends State<MainView> {
                                               : SizedBox(
                                                   height: deviceHeight * 0.13,
                                                   child: Center(
-                                                      child: Text(
-                                                          'No categories found'))),
+                                                    child: Text(
+                                                      'No categories found',
+                                                    ),
+                                                  ),
+                                                ),
                                           mainVm.finalData.isNotEmpty &&
                                                   mainVm.productsList.isNotEmpty
                                               ? SizedBox(
@@ -385,13 +444,16 @@ class _MainViewState extends State<MainView> {
                                                                 const EdgeInsets
                                                                     .all(8.0),
                                                             child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                  gradient: LinearGradient(
-                                                                      colors: active
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  colors:
+                                                                      active
                                                                           ? [
                                                                               AppColors.lightSecondaryColor1,
                                                                               AppColors.lightSecondaryColor2
@@ -399,7 +461,9 @@ class _MainViewState extends State<MainView> {
                                                                           : [
                                                                               AppColors.lightGreyColor,
                                                                               AppColors.lightSecondaryColor
-                                                                            ])),
+                                                                            ],
+                                                                ),
+                                                              ),
                                                               child: Padding(
                                                                 padding: EdgeInsets
                                                                     .symmetric(
@@ -481,8 +545,11 @@ class _MainViewState extends State<MainView> {
                                               : SizedBox(
                                                   height: deviceHeight * 0.59,
                                                   child: Center(
-                                                      child: Text(
-                                                          'No recipes found'))),
+                                                    child: Text(
+                                                      'No recipes found',
+                                                    ),
+                                                  ),
+                                                ),
                                         ],
                                       ),
                                     ),
@@ -497,4 +564,12 @@ class _MainViewState extends State<MainView> {
       ),
     );
   }
+}
+
+enum NavigationScreensEnum {
+  seeAllCategories,
+  categoriesItem,
+  productsItem,
+  onPop,
+  none,
 }

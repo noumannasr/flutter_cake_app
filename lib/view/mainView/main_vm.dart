@@ -1,16 +1,17 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
+import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/categories/categories_view.dart';
+import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainVm extends ChangeNotifier {
-
   late BuildContext context;
   TextEditingController searchController = TextEditingController();
   FocusNode focusNode = FocusNode();
@@ -25,10 +26,16 @@ class MainVm extends ChangeNotifier {
   bool _isProductsLoading = true;
 
   bool get isLoading => _isLoading;
+
   bool get isProductsLoading => _isProductsLoading;
-  Stream<Map<String, List<ProductModel>>> get categoriesAndProductsStream => _categoriesAndProductsStream;
+
+  Stream<Map<String, List<ProductModel>>> get categoriesAndProductsStream =>
+      _categoriesAndProductsStream;
+
   List<CategoryModel> get categories => _categories;
+
   List<ProductModel> get productsList => _productsList;
+
   List<ProductModel> get filteredList => _filteredList;
 
   MainVm(this.context) {
@@ -59,7 +66,6 @@ class MainVm extends ChangeNotifier {
     notifyListeners();
     getCategoriesData();
     getProductsData();
-
   }
 
   setLoading(bool status) {
@@ -130,7 +136,6 @@ class MainVm extends ChangeNotifier {
   }
 
   void getProductsData() async {
-
     setProductLoading(true);
     try {
       final firestore = FirebaseFirestore.instance;
@@ -160,10 +165,14 @@ class MainVm extends ChangeNotifier {
   Future<Map<String, List<ProductModel>>> mapCategoriesAndProducts() async {
     print(' We are here');
     setLoading(true);
-    final categoriesSnapshot =
-        await FirebaseFirestore.instance.collection('Categories').where('isActive', isEqualTo: true).get();
-    final productsSnapshot =
-        await FirebaseFirestore.instance.collection('Products').where('isActive', isEqualTo: true).get();
+    final categoriesSnapshot = await FirebaseFirestore.instance
+        .collection('Categories')
+        .where('isActive', isEqualTo: true)
+        .get();
+    final productsSnapshot = await FirebaseFirestore.instance
+        .collection('Products')
+        .where('isActive', isEqualTo: true)
+        .get();
 
     final categories = categoriesSnapshot.docs;
     final products = productsSnapshot.docs;
@@ -189,72 +198,69 @@ class MainVm extends ChangeNotifier {
   void onDrawerItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        Navigator.of(context).pop();
+        AppAdsIds.showInterstitialAd(
+          navigationEnum: NavigationScreensEnum.onPop,
+          context: context,
+        );
         break;
       case 1:
-        print('category Tap drawer');
-        Navigator.of(context).push(
-            PageRouteBuilder(
-             pageBuilder: (context, animation, secondaryAnimation) => CategoriesView(),
-             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return child;
-          },
-        ));
+
+        ///* category Tap drawer
+        Navigator.of(context).pop();
+
+        AppAdsIds.showInterstitialAd(
+          navigationEnum: NavigationScreensEnum.seeAllCategories,
+          context: context,
+        );
+        // Navigator.of(context).push(PageRouteBuilder(
+        //   pageBuilder: (context, animation, secondaryAnimation) =>
+        //       CategoriesView(),
+        //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        //     return child;
+        //   },
+        // ));
         break;
       case 2:
-        Share.share(AppText.appLink);
-        print('Share Tap drawer');
+        Navigator.of(context).pop();
+
+        ///* share tap drawer
+        Share.share(AppText.shareText);
         break;
       case 3:
-        launchURL(AppText.appLink);
-        print('rate Tap drawer');
+        Navigator.of(context).pop();
+
+        ///* rate App
+        Utils.launchURL(Uri.parse(AppText.appLink));
         break;
       case 4:
-        launchURL(AppText.moreApps);
-        print('More Tap drawer');
+        Navigator.of(context).pop();
+
+        ///* more apps
+        Utils.launchURL(Uri.parse(AppText.moreApps));
         break;
       case 5:
-        launchEmail();
-        print('Feedback Tap drawer');
+        Navigator.of(context).pop();
+
+        ///* feedback us
+        Utils.launchEmail(email: AppText.supportEmail);
         break;
       case 6:
-        print('credit Tap drawer');
+        Navigator.of(context).pop();
+
+        ///* credit attribution
+        Utils.launchURL(Uri.parse(AppText.iconsAttributionPageUrl));
       case 7:
-        launchURL(AppText.privacyPolicyPageUrl);
-        print('privacy Tap drawer');
+        Navigator.of(context).pop();
+
+        ///* privacy policy
+        Utils.launchURL(Uri.parse(AppText.privacyPolicyPageUrl));
       case 8:
-        print('version Tap drawer');
+
+        ///* app version
         break;
       default:
         print('default Tap drawer');
         break;
     }
   }
-
-  void launchEmail() async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: AppText.supportEmail, // Replace with the recipient email
-      queryParameters: {
-        'subject': '', // Optional: set a default subject
-        'body': '', // Optional: set default body
-      },
-    );
-
-    // Check if the email client can be opened
-    if (await canLaunch(emailUri.toString())) {
-      await launch(emailUri.toString());
-    } else {
-      throw 'Could not launch email client';
-    }
-  }
-
-  void launchURL(String link) async {
-    if (await canLaunch(link)) {
-      await launch(link);
-    } else {
-      throw 'Could not launch $link';
-    }
-  }
-
 }
