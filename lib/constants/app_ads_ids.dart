@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cake_app/adService/interstitial_ad_singleton.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/view/categories/categories_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/view/productDetail/product_detail_view.dart';
@@ -35,31 +37,40 @@ class AppAdsIds {
     String categoryName = '',
     ProductModel? productModel,
   }) {
-    if (AppAdsIds.adCount == AppAdsIds.adCountLimit) {
-      InterstitialAdSingleton().showInterstitialAd(
-        adFailedToLoad: (adFailed) {
-          InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
-          AppAdsIds.adCount = 0;
-          navigateToScreen(
-            screen: navigationEnum,
-            context: context,
-            productModel: productModel,
-            categoryName: categoryName,
-          );
-        },
-        adLoaded: (adLoaded) {
-          InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
-          AppAdsIds.adCount = 0;
-          navigateToScreen(
-            screen: navigationEnum,
-            context: context,
-            productModel: productModel,
-            categoryName: categoryName,
-          );
-        },
-      );
+    if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
+      if (AppAdsIds.adCount == AppAdsIds.adCountLimit) {
+        InterstitialAdSingleton().showInterstitialAd(
+          adFailedToLoad: (adFailed) {
+            InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
+            AppAdsIds.adCount = 0;
+            navigateToScreen(
+              screen: navigationEnum,
+              context: context,
+              productModel: productModel,
+              categoryName: categoryName,
+            );
+          },
+          adLoaded: (adLoaded) {
+            InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
+            AppAdsIds.adCount = 0;
+            navigateToScreen(
+              screen: navigationEnum,
+              context: context,
+              productModel: productModel,
+              categoryName: categoryName,
+            );
+          },
+        );
+      } else {
+        AppAdsIds.adCount += 1;
+        navigateToScreen(
+          screen: navigationEnum,
+          context: context,
+          productModel: productModel,
+          categoryName: categoryName,
+        );
+      }
     } else {
-      AppAdsIds.adCount += 1;
       navigateToScreen(
         screen: navigationEnum,
         context: context,

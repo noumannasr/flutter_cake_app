@@ -9,6 +9,8 @@ import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/mainView/components/category_item.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
@@ -32,7 +34,9 @@ class _MainViewState extends State<MainView> {
   @override
   void dispose() {
     Provider.of<MainVm>(context).focusNode.dispose();
-    adService.adHome.dispose();
+    if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
+      adService.adHome.dispose();
+    }
     super.dispose();
   }
 
@@ -60,8 +64,10 @@ class _MainViewState extends State<MainView> {
       ));
 
       await remoteConfig.fetchAndActivate();
-      double newVersion = double.parse(
-          remoteConfig.getString('app_version').trim().replaceAll(".", ""));
+      double newVersion = double.parse(remoteConfig
+          .getString(BaseEnv.instance.status.remoteConfigFlavorAppVersionKey())
+          .trim()
+          .replaceAll(".", ""));
       print("Remote Config Version is:" + newVersion.toString());
       if (newVersion > currentVersion) {
         Utils.showVersionDialog(
@@ -114,8 +120,8 @@ class _MainViewState extends State<MainView> {
             ),
           ),
           backgroundColor: AppColors.primaryColor,
-          title: const Text(
-            AppText.appName,
+          title: Text(
+            BaseEnv.instance.status.appFlavorName(),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -149,27 +155,31 @@ class _MainViewState extends State<MainView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    SizedBox(
-                                      height: deviceHeight * 0.08,
-                                      child: FutureBuilder<void>(
-                                        future: adService.loadAdHome(),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<void> snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (snapshot.hasError) {
-                                            return Text(
-                                                'Error loading ad: ${snapshot.error}');
-                                          } else {
-                                            return AdWidget(
-                                                ad: adService.adHome);
-                                          }
-                                        },
-                                      ),
-                                    ),
+                                    BaseEnv.instance.status.appFlavor() ==
+                                            AppFlavorEnum.free
+                                        ? SizedBox(
+                                            height: deviceHeight * 0.08,
+                                            child: FutureBuilder<void>(
+                                              future: adService.loadAdHome(),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<void>
+                                                      snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return const Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                } else if (snapshot.hasError) {
+                                                  return Text(
+                                                      'Error loading ad: ${snapshot.error}');
+                                                } else {
+                                                  return AdWidget(
+                                                      ad: adService.adHome);
+                                                }
+                                              },
+                                            ),
+                                          )
+                                        : IgnorePointer(),
                                     mainVm.productsList.isEmpty
                                         ? SizedBox()
                                         : Center(

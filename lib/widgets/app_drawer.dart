@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/app_drawer_list.dart';
 import 'package:flutter_cake_app/constants/app_images.dart';
-import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
@@ -47,13 +46,13 @@ class _AppDrawerState extends State<AppDrawer> {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     backgroundImage: AssetImage(
-                      AppImages.appIcon,
+                      BaseEnv.instance.status.appFlavorIcon(),
                     ),
                     radius: 40,
                   ),
                 ),
                 Text(
-                  AppText.appName,
+                  BaseEnv.instance.status.appFlavorName(),
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -63,39 +62,39 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
           ),
           ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: AppDrawerList().drawerList.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                final item = AppDrawerList().drawerList[index];
-                return Consumer<MainVm>(
-                  builder: (context, mainVm, child) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          leading: Icon(item.icon),
-                          title: Text(item.name),
-                          trailing: index == 8
-                              ? Text(
-                                  '${AppConfig().packageInfo.version} ${BaseEnv.instance.status.appFlavorName()}')
-                              : Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 14,
-                                ),
-                          onTap: () {
-                            mainVm.onDrawerItemTapped(index, context);
-                          },
-                          dense: false,
-                          minVerticalPadding: 0.0,
-                          minTileHeight: 40,
-                        ),
-                        Divider(),
-                      ],
-                    );
-                  },
-                );
-              }),
+            padding: EdgeInsets.zero,
+            itemCount: AppDrawerList().drawerList.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              final item = AppDrawerList().drawerList[index];
+              return Consumer<MainVm>(
+                builder: (context, mainVm, child) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(item.icon),
+                        title: Text(item.name),
+                        trailing: index == 8
+                            ? Text('${AppConfig().packageInfo.version}')
+                            : Icon(
+                                Icons.arrow_forward_ios,
+                                size: 14,
+                              ),
+                        onTap: () {
+                          mainVm.onDrawerItemTapped(index, context);
+                        },
+                        dense: false,
+                        minVerticalPadding: 0.0,
+                        minTileHeight: 40,
+                      ),
+                      Divider(),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );

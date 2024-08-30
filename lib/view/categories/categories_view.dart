@@ -6,6 +6,8 @@ import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/mainView/components/category_item.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
@@ -25,13 +27,14 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   void dispose() {
-    adService.adCategoriesView.dispose();
+    if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
+      adService.adCategoriesView.dispose();
+    }
     super.dispose();
   }
 
   @override
   void initState() {
-    adService.loadAdCategories();
     Utils.firebaseAnalyticsLogEvent(allCategoriesScreen);
     super.initState();
   }
@@ -59,26 +62,6 @@ class _CategoriesViewState extends State<CategoriesView> {
             );
           },
         ),
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   elevation: 0,
-        //   title: Text(
-        //     'Categories',
-        //     maxLines: 1,
-        //     overflow: TextOverflow.ellipsis,
-        //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        //   ),
-        //   flexibleSpace: Container(
-        //     decoration: const BoxDecoration(
-        //         gradient: LinearGradient(
-        //             begin: Alignment.topLeft,
-        //             end: Alignment.topRight,
-        //             colors: [
-        //           AppColors.secondaryColor,
-        //           AppColors.primaryColor,
-        //         ])),
-        //   ),
-        // ),
         body: Column(
           children: [
             Expanded(
@@ -146,21 +129,26 @@ class _CategoriesViewState extends State<CategoriesView> {
                 ),
               ),
             ),
-            SizedBox(
-              height: deviceHeight * 0.08,
-              child: FutureBuilder<void>(
-                future: adService.loadAdCategories(),
-                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('Error loading ad: ${snapshot.error}');
-                  } else {
-                    return AdWidget(ad: adService.adCategoriesView);
-                  }
-                },
-              ),
-            ),
+            BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free
+                ? SizedBox(
+                    height: deviceHeight * 0.08,
+                    child: FutureBuilder<void>(
+                      future: adService.loadAdCategories(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<void> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Text('Error loading ad: ${snapshot.error}');
+                        } else {
+                          return AdWidget(ad: adService.adCategoriesView);
+                        }
+                      },
+                    ),
+                  )
+                : IgnorePointer(),
           ],
         ),
       ),

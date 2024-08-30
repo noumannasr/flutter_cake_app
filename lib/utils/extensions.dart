@@ -1,10 +1,13 @@
+import 'package:flutter_cake_app/constants/app_images.dart';
+import 'package:flutter_cake_app/constants/app_texts.dart';
+
 enum AppFlavorEnum {
   paid,
   free,
 }
 
 extension BaseEnvExten on String {
-  String appFlavorName() {
+  String appFlavorType() {
     switch (this) {
       case 'free':
         return '';
@@ -23,6 +26,39 @@ extension BaseEnvExten on String {
         return AppFlavorEnum.paid;
       default:
         return AppFlavorEnum.free;
+    }
+  }
+
+  String appFlavorName() {
+    switch (this) {
+      case 'free':
+        return AppText.freeAppName;
+      case 'paid':
+        return AppText.paidAppName;
+      default:
+        return AppText.freeAppName;
+    }
+  }
+
+  String appFlavorIcon() {
+    switch (this) {
+      case 'free':
+        return AppImages.freeAppIcon;
+      case 'paid':
+        return AppImages.paidAppIcon;
+      default:
+        return AppImages.freeAppIcon;
+    }
+  }
+
+  String remoteConfigFlavorAppVersionKey() {
+    switch (this) {
+      case 'free':
+        return AppText.appVersionFreeRemoteConfig;
+      case 'paid':
+        return AppText.appVersionPaidRemoteConfig;
+      default:
+        return AppText.appVersionFreeRemoteConfig;
     }
   }
 }

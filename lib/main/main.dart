@@ -11,6 +11,7 @@ import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/permission_handler.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
@@ -119,8 +120,6 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 void initMain({required String envFileName}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppConfig().setPackageInfo();
-  await MobileAds.instance.initialize();
-  InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
   if (Firebase.apps.isEmpty) {
     if (Platform.isIOS) {
     } else {
@@ -146,6 +145,11 @@ void initMain({required String envFileName}) async {
   await dotenv.load(fileName: envFileName);
   BaseEnv.instance.setEnv();
 
+  if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
+    await MobileAds.instance.initialize();
+    InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
+  }
+
   await PermissionHandler.requestNotificationPermission(
     notificationPermissionStatus: (status) async {
       switch (status) {
@@ -168,10 +172,21 @@ void initMain({required String envFileName}) async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(AssetImage(BaseEnv.instance.status.appFlavorIcon()), context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -189,7 +204,7 @@ class MyApp extends StatelessWidget {
               FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
             ],
             debugShowCheckedModeBanner: false,
-            title: AppText.appName,
+            title: BaseEnv.instance.status.appFlavorName(),
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,

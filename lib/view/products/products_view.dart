@@ -5,6 +5,8 @@ import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/widgets/custom_app_bar.dart';
@@ -25,15 +27,15 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   void dispose() {
-    adService.adProductsView.dispose();
-
+    if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
+      adService.adProductsView.dispose();
+    }
     super.dispose();
   }
 
   @override
   void initState() {
     Utils.firebaseAnalyticsLogEvent(recipesScreen);
-    adService.loadAdProducts();
     super.initState();
   }
 
@@ -111,21 +113,26 @@ class _ProductsViewState extends State<ProductsView> {
                 ),
               ),
             ),
-            SizedBox(
-              height: height * 0.08,
-              child: FutureBuilder<void>(
-                future: adService.loadAdProducts(),
-                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Text('Error loading ad: ${snapshot.error}');
-                  } else {
-                    return AdWidget(ad: adService.adProductsView);
-                  }
-                },
-              ),
-            ),
+            BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free
+                ? SizedBox(
+                    height: height * 0.08,
+                    child: FutureBuilder<void>(
+                      future: adService.loadAdProducts(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<void> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Text('Error loading ad: ${snapshot.error}');
+                        } else {
+                          return AdWidget(ad: adService.adProductsView);
+                        }
+                      },
+                    ),
+                  )
+                : IgnorePointer(),
           ],
         ),
       ),

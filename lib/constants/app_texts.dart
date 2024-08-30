@@ -1,5 +1,9 @@
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
+
 class AppText {
-  static const appName = 'RecipeTreasure: Cook Guide';
+  static const freeAppName = 'RecipeTreasure: Cook Guide';
+  static const paidAppName = 'RecipeTreasure: Cook Guide Pro';
   static const supportEmail = "support@developerzonne.com";
   static const appPackageName = "com.deliciousandtastyrecipes.app";
   static const developerAccountId = "Developer+Zonne";
@@ -11,6 +15,8 @@ class AppText {
       "https://tastyrecipies.developerzonne.com/attribution-credit.html";
   static const iconsAttributionPageUrl =
       'https://tastyrecipies.developerzonne.com/attribution-credit.html';
-  static const shareText =
-      'Transform your cooking with our easy-to-follow recipes using $appName! Download now $appLink';
+  static String shareText =
+      'Transform your cooking with our easy-to-follow recipes using ${BaseEnv.instance.status.appFlavorName()}! Download now $appLink';
+  static String appVersionFreeRemoteConfig = 'app_version_free';
+  static String appVersionPaidRemoteConfig = 'app_version_paid';
 }

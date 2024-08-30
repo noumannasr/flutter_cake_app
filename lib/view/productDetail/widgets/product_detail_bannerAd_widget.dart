@@ -1,0 +1,151 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_cake_app/adService/ad_service.dart';
+import 'package:flutter_cake_app/constants/app_ads_ids.dart';
+import 'package:flutter_cake_app/constants/app_colors.dart';
+import 'package:flutter_cake_app/model/product_model.dart';
+import 'package:flutter_cake_app/svg_assets.dart';
+import 'package:flutter_cake_app/view/mainView/main_view.dart';
+import 'package:flutter_cake_app/view/productDetail/product_detail_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+class ProductDetailBannerAdWidget extends StatelessWidget {
+  final ProductModel productModel;
+  final AdService adService;
+
+  const ProductDetailBannerAdWidget({
+    super.key,
+    required this.productModel,
+    required this.adService,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          height: height * 0.9,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppColors.secondaryColor,
+                AppColors.primaryColor,
+              ],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    SizedBox(
+                      height: height * 0.4,
+                      width: width,
+                      child: CachedNetworkImage(
+                        imageUrl: productModel.productImage.toString(),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.4,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              AppAdsIds.showInterstitialAd(
+                                navigationEnum: NavigationScreensEnum.onPop,
+                                context: context,
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 14.w, top: 25.h),
+                              child: Container(
+                                height: 40.w,
+                                width: 40.h,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color:
+                                        AppColors.primaryColor.withOpacity(0.8),
+                                    shape: BoxShape.circle),
+                                child: SvgPicture.asset(
+                                  SvgAssets.backIcon,
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.black,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: width,
+                            height: height * 0.07,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 12,
+                                bottom: 5,
+                                top: 10,
+                              ),
+                              child: Text(
+                                productModel.productName,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 23),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                DetailItem(
+                  title: 'Ingredients',
+                  text: productModel.ingredients,
+                ),
+                DetailItem(
+                  title: 'Direction',
+                  text: productModel.direction,
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: height * 0.08,
+          child: FutureBuilder<void>(
+            future: adService.loadAdDetail(),
+            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Text('Error loading ad: ${snapshot.error}');
+              } else {
+                return AdWidget(ad: adService.adDetail);
+              }
+            },
+          ),
+        )
+      ],
+    );
+  }
+}
