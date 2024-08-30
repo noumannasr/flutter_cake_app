@@ -12,7 +12,7 @@ class AppText {
   static const moreApps =
       "https://play.google.com/store/apps/developer?id=$developerAccountId";
   static const privacyPolicyPageUrl =
-      "https://tastyrecipies.developerzonne.com/attribution-credit.html";
+      "https://tastyrecipies.developerzonne.com/privacy-policy.html";
   static const iconsAttributionPageUrl =
       'https://tastyrecipies.developerzonne.com/attribution-credit.html';
   static String shareText =
