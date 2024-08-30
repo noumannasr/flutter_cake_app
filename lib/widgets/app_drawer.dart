@@ -5,6 +5,8 @@ import 'package:flutter_cake_app/constants/app_images.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +17,6 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-
   @override
   void initState() {
     Utils.firebaseAnalyticsLogEvent(drawerScreen);
@@ -76,7 +77,8 @@ class _AppDrawerState extends State<AppDrawer> {
                           leading: Icon(item.icon),
                           title: Text(item.name),
                           trailing: index == 8
-                              ? Text(AppConfig().packageInfo.version)
+                              ? Text(
+                                  '${AppConfig().packageInfo.version} ${BaseEnv.instance.status.appFlavorName()}')
                               : Icon(
                                   Icons.arrow_forward_ios,
                                   size: 14,

@@ -65,7 +65,29 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
         }
+
+        debug{
+            signingConfig signingConfigs.debug
+        }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        paid {
+            dimension "default"
+            resValue "string", "app_name", "RecipeTreasure: Cook Guide Pro"
+            applicationIdSuffix ".premium"
+            versionCode 1
+            versionName "1.0.0"
+        }
+        free {
+            dimension "default"
+            resValue "string", "app_name", "RecipeTreasure: Cook Guide"
+            versionCode 1
+            versionName "1.0.0"
+        }
+    }
+
 }
 
 flutter {

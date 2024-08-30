@@ -10,9 +10,11 @@ import 'package:flutter_cake_app/adService/interstitial_ad_singleton.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/permission_handler.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -114,7 +116,7 @@ void showFlutterNotification(RemoteMessage message) {
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-void main() async {
+void initMain({required String envFileName}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppConfig().setPackageInfo();
   await MobileAds.instance.initialize();
@@ -140,6 +142,9 @@ void main() async {
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   }
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  await dotenv.load(fileName: envFileName);
+  BaseEnv.instance.setEnv();
 
   await PermissionHandler.requestNotificationPermission(
     notificationPermissionStatus: (status) async {
