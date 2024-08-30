@@ -105,9 +105,8 @@ void showFlutterNotification(RemoteMessage message) {
       NotificationDetails(
         android: AndroidNotificationDetails(channel.id, channel.name,
             channelDescription: channel.description,
-            //      one that already exists in example app.
-            // icon: 'launch_background',
-            icon: '@drawable/notification_icon',
+            //one that already exists in example app.
+            icon: BaseEnv.instance.status.appFlavorIcon(),
             color: AppColors.primaryColor),
       ),
     );
@@ -120,6 +119,13 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 void initMain({required String envFileName}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppConfig().setPackageInfo();
+  await dotenv.load(fileName: envFileName);
+  BaseEnv.instance.setEnv();
+
+  if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
+    await MobileAds.instance.initialize();
+    InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
+  }
   if (Firebase.apps.isEmpty) {
     if (Platform.isIOS) {
     } else {
@@ -141,14 +147,6 @@ void initMain({required String envFileName}) async {
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   }
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  await dotenv.load(fileName: envFileName);
-  BaseEnv.instance.setEnv();
-
-  if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
-    await MobileAds.instance.initialize();
-    InterstitialAdSingleton().loadInterstitialAd(adUnitId: 'adUnitId');
-  }
 
   await PermissionHandler.requestNotificationPermission(
     notificationPermissionStatus: (status) async {
@@ -180,7 +178,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/app_drawer_list.dart';
-import 'package:flutter_cake_app/constants/app_images.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';

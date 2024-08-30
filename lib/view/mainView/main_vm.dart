@@ -212,13 +212,6 @@ class MainVm extends ChangeNotifier {
           navigationEnum: NavigationScreensEnum.seeAllCategories,
           context: context,
         );
-        // Navigator.of(context).push(PageRouteBuilder(
-        //   pageBuilder: (context, animation, secondaryAnimation) =>
-        //       CategoriesView(),
-        //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        //     return child;
-        //   },
-        // ));
         break;
       case 2:
         Navigator.of(context).pop();

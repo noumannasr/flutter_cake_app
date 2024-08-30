@@ -1,3 +1,4 @@
+import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
 
@@ -5,10 +6,9 @@ class AppText {
   static const freeAppName = 'RecipeTreasure: Cook Guide';
   static const paidAppName = 'RecipeTreasure: Cook Guide Pro';
   static const supportEmail = "support@developerzonne.com";
-  static const appPackageName = "com.deliciousandtastyrecipes.app";
   static const developerAccountId = "Developer+Zonne";
-  static const appLink =
-      "https://play.google.com/store/apps/details?id=${appPackageName}";
+  static String appLink =
+      "https://play.google.com/store/apps/details?id=${AppConfig().packageInfo.packageName}";
   static const moreApps =
       "https://play.google.com/store/apps/developer?id=$developerAccountId";
   static const privacyPolicyPageUrl =

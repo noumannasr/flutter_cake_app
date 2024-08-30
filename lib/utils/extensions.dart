@@ -61,4 +61,15 @@ extension BaseEnvExten on String {
         return AppText.appVersionFreeRemoteConfig;
     }
   }
+
+  String pushNotificationFlavorIcon() {
+    switch (this) {
+      case 'free':
+        return '@drawable/free_flavor_app_icon';
+      case 'paid':
+        return '@drawable/paid_flavor_app_icon';
+      default:
+        return '@drawable/free_flavor_app_icon';
+    }
+  }
 }
