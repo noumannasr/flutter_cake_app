@@ -72,4 +72,15 @@ extension BaseEnvExten on String {
         return '@drawable/free_flavor_app_icon';
     }
   }
+
+  String supportEmailTitle() {
+    switch (this) {
+      case 'free':
+        return 'Feedback: ${AppText.freeAppName}';
+      case 'paid':
+        return 'Help & Support: ${AppText.paidAppName}';
+      default:
+        return 'Feedback: ${AppText.freeAppName}';
+    }
+  }
 }

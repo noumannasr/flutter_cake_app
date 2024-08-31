@@ -1,18 +1,18 @@
-import 'dart:ui';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/widgets/material_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
-  static Future<void> launchEmail({required String email}) async {
+  static Future<void> launchEmail({
+    required String email,
+    required String subject,
+  }) async {
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: email,
       queryParameters: {
-        'subject': '',
+        'subject': subject,
         'body': '',
       },
     );

@@ -24,7 +24,9 @@ class AppDrawerList {
         appDrawerEnum: AppDrawerEnum.moreApps,
         icon: Icons.menu),
     DrawerModel(
-        name: 'Feedback us',
+        name: BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free
+            ? 'Feedback Us'
+            : 'Help & Support',
         appDrawerEnum: AppDrawerEnum.feedbackUs,
         icon: Icons.feedback),
     DrawerModel(

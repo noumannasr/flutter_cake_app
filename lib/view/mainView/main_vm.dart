@@ -7,6 +7,8 @@ import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/core/dialogs/dialog.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/categories/categories_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
@@ -240,7 +242,9 @@ class MainVm extends ChangeNotifier {
         Navigator.of(context).pop();
 
         ///* feedback us
-        Utils.launchEmail(email: AppText.supportEmail);
+        Utils.launchEmail(
+            email: AppText.supportEmail,
+            subject: BaseEnv.instance.status.supportEmailTitle());
         break;
       case AppDrawerEnum.creditAttribution:
         Navigator.of(context).pop();
