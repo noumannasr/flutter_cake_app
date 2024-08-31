@@ -106,7 +106,7 @@ void showFlutterNotification(RemoteMessage message) {
         android: AndroidNotificationDetails(channel.id, channel.name,
             channelDescription: channel.description,
             //one that already exists in example app.
-            icon: BaseEnv.instance.status.appFlavorIcon(),
+            icon: '@drawable/notification_icon',
             color: AppColors.primaryColor),
       ),
     );

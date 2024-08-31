@@ -20,5 +20,5 @@ class AppText {
   static String appVersionFreeRemoteConfig = 'app_version_free';
   static String appVersionPaidRemoteConfig = 'app_version_paid';
   static const paidAppUrl =
-      'https://play.google.com/store/apps/developer?id=com.deliciousandtastyrecipes.app.premium';
+      'https://play.google.com/store/apps/details?id=com.deliciousandtastyrecipes.app.premium';
 }

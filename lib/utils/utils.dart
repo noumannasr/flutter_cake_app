@@ -11,12 +11,8 @@ class Utils {
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: email,
-      queryParameters: {
-        'subject': subject,
-        'body': '',
-      },
+      query: 'subject=${Uri.encodeComponent(subject)}',
     );
-
     launchURL(emailUri);
   }
 
@@ -45,11 +41,6 @@ class Utils {
       context: context,
       barrierDismissible: barrierDismissible ?? false,
       builder: (BuildContext context) {
-        // String title = "New Update Available";
-        // String message =
-        //     "There is a newer version of app available please update it now.";
-        // String btnLabel = "Update Now";
-
         return PopScope(
           canPop: canPop ?? false,
           child: AlertDialog(

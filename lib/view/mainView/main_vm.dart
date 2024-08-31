@@ -50,7 +50,6 @@ class MainVm extends ChangeNotifier {
   }
 
   void init() {
-    print(' We are in init');
     removeFocus();
     _categories.clear();
     _productsList.clear();
