@@ -2,12 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_ads_ids.dart';
+import 'package:flutter_cake_app/constants/app_drawer_list.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
+import 'package:flutter_cake_app/core/dialogs/dialog.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/categories/categories_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
+import 'package:flutter_cake_app/widgets/material_button.dart';
+import 'package:flutter_cake_app/widgets/upgrade_premium_version_dialog_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -195,15 +200,15 @@ class MainVm extends ChangeNotifier {
     return finalData;
   }
 
-  void onDrawerItemTapped(int index, BuildContext context) {
-    switch (index) {
-      case 0:
+  void onDrawerItemTapped(AppDrawerEnum appDrawerEnum, BuildContext context) {
+    switch (appDrawerEnum) {
+      case AppDrawerEnum.home:
         AppAdsIds.showInterstitialAd(
           navigationEnum: NavigationScreensEnum.onPop,
           context: context,
         );
         break;
-      case 1:
+      case AppDrawerEnum.categories:
 
         ///* category Tap drawer
         Navigator.of(context).pop();
@@ -213,43 +218,49 @@ class MainVm extends ChangeNotifier {
           context: context,
         );
         break;
-      case 2:
+      case AppDrawerEnum.shareApp:
         Navigator.of(context).pop();
 
         ///* share tap drawer
         Share.share(AppText.shareText);
         break;
-      case 3:
+      case AppDrawerEnum.rateApp:
         Navigator.of(context).pop();
 
         ///* rate App
         Utils.launchURL(Uri.parse(AppText.appLink));
         break;
-      case 4:
+      case AppDrawerEnum.moreApps:
         Navigator.of(context).pop();
 
         ///* more apps
         Utils.launchURL(Uri.parse(AppText.moreApps));
         break;
-      case 5:
+      case AppDrawerEnum.feedbackUs:
         Navigator.of(context).pop();
 
         ///* feedback us
         Utils.launchEmail(email: AppText.supportEmail);
         break;
-      case 6:
+      case AppDrawerEnum.creditAttribution:
         Navigator.of(context).pop();
 
         ///* credit attribution
         Utils.launchURL(Uri.parse(AppText.iconsAttributionPageUrl));
-      case 7:
+      case AppDrawerEnum.privacyPolicy:
         Navigator.of(context).pop();
 
         ///* privacy policy
         Utils.launchURL(Uri.parse(AppText.privacyPolicyPageUrl));
-      case 8:
+      case AppDrawerEnum.removeAds:
+        Navigator.of(context).pop();
 
-        ///* app version
+        CustomDialog.showCustomDialog(
+          context: context,
+          canPop: true,
+          barrierDismissible: true,
+          dialogWidget: UpgradePremiumVersionDialogWidget(),
+        );
         break;
       default:
         print('default Tap drawer');

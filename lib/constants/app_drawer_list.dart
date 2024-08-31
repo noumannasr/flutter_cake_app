@@ -1,16 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/model/drawer_model.dart';
+import 'package:flutter_cake_app/utils/base_env.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 
 class AppDrawerList {
-  List<DrawerModel> drawerList = [
-    DrawerModel(name: 'Home', icon: Icons.home),
-    DrawerModel(name: 'Categories', icon: Icons.category),
-    DrawerModel(name: 'Share App', icon: Icons.share),
-    DrawerModel(name: 'Rate App', icon: Icons.star_rate),
-    DrawerModel(name: 'More Apps', icon: Icons.menu),
-    DrawerModel(name: 'Feedback us', icon: Icons.feedback),
-    DrawerModel(name: 'Credit - Attribution', icon: Icons.attribution),
-    DrawerModel(name: 'Privacy Policy', icon: Icons.privacy_tip),
-    DrawerModel(name: 'App Version', icon: Icons.info),
+  static List<DrawerModel> drawerList = [
+    DrawerModel(
+        name: 'Home', appDrawerEnum: AppDrawerEnum.home, icon: Icons.home),
+    DrawerModel(
+        name: 'Categories',
+        appDrawerEnum: AppDrawerEnum.categories,
+        icon: Icons.category),
+    DrawerModel(
+        name: 'Share App',
+        appDrawerEnum: AppDrawerEnum.shareApp,
+        icon: Icons.share),
+    DrawerModel(
+        name: 'Rate App',
+        appDrawerEnum: AppDrawerEnum.rateApp,
+        icon: Icons.star_rate),
+    DrawerModel(
+        name: 'More Apps',
+        appDrawerEnum: AppDrawerEnum.moreApps,
+        icon: Icons.menu),
+    DrawerModel(
+        name: 'Feedback us',
+        appDrawerEnum: AppDrawerEnum.feedbackUs,
+        icon: Icons.feedback),
+    DrawerModel(
+        name: 'Credit - Attribution',
+        appDrawerEnum: AppDrawerEnum.creditAttribution,
+        icon: Icons.attribution),
+    DrawerModel(
+        name: 'Privacy Policy',
+        appDrawerEnum: AppDrawerEnum.privacyPolicy,
+        icon: Icons.privacy_tip),
+    DrawerModel(
+      name: 'Remove Ads',
+      appDrawerEnum: AppDrawerEnum.removeAds,
+      icon: Icons.remove_circle_outline_sharp,
+      hideItem: BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free
+          ? false
+          : true,
+    ),
+    DrawerModel(
+        name: 'App Version',
+        appDrawerEnum: AppDrawerEnum.appVersion,
+        icon: Icons.info),
   ];
+}
+
+enum AppDrawerEnum {
+  home,
+  categories,
+  shareApp,
+  rateApp,
+  moreApps,
+  feedbackUs,
+  creditAttribution,
+  privacyPolicy,
+  removeAds,
+  appVersion,
 }

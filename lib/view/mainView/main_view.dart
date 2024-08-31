@@ -71,6 +71,10 @@ class _MainViewState extends State<MainView> {
       print("Remote Config Version is:" + newVersion.toString());
       if (newVersion > currentVersion) {
         Utils.showVersionDialog(
+          title: 'New Update Available',
+          subTitle:
+              'There is a newer version of app available please update it now.',
+          buttonTitle: 'Update Now',
           context: context,
           onTap: () {
             Utils.launchURL(Uri.parse(AppText.appLink));

@@ -35,24 +35,29 @@ class Utils {
   static Future<void> showVersionDialog({
     required BuildContext context,
     required VoidCallback onTap,
+    required String title,
+    required String subTitle,
+    required String buttonTitle,
+    bool? canPop,
+    bool? barrierDismissible,
   }) async {
     await showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: barrierDismissible ?? false,
       builder: (BuildContext context) {
-        String title = "New Update Available";
-        String message =
-            "There is a newer version of app available please update it now.";
-        String btnLabel = "Update Now";
+        // String title = "New Update Available";
+        // String message =
+        //     "There is a newer version of app available please update it now.";
+        // String btnLabel = "Update Now";
 
         return PopScope(
-          canPop: false,
+          canPop: canPop ?? false,
           child: AlertDialog(
             title: Text(title),
-            content: Text(message),
+            content: Text(subTitle),
             actions: [
               MyButton(
-                title: btnLabel,
+                title: buttonTitle,
                 onTap: onTap,
               ),
             ],

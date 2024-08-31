@@ -62,36 +62,41 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount: AppDrawerList().drawerList.length,
+            itemCount: AppDrawerList.drawerList.length,
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
-              final item = AppDrawerList().drawerList[index];
-              return Consumer<MainVm>(
-                builder: (context, mainVm, child) {
-                  return Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(item.icon),
-                        title: Text(item.name),
-                        trailing: index == 8
-                            ? Text('${AppConfig().packageInfo.version}')
-                            : Icon(
-                                Icons.arrow_forward_ios,
-                                size: 14,
-                              ),
-                        onTap: () {
-                          mainVm.onDrawerItemTapped(index, context);
-                        },
-                        dense: false,
-                        minVerticalPadding: 0.0,
-                        minTileHeight: 40,
-                      ),
-                      Divider(),
-                    ],
-                  );
-                },
-              );
+              final item = AppDrawerList.drawerList[index];
+              return item.hideItem == true
+                  ? IgnorePointer()
+                  : Consumer<MainVm>(
+                      builder: (context, mainVm, child) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              leading: Icon(item.icon),
+                              title: Text(item.name),
+                              trailing: item.appDrawerEnum ==
+                                      AppDrawerEnum.appVersion
+                                  ? Text('${AppConfig().packageInfo.version}')
+                                  : Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 14,
+                                    ),
+                              onTap: () {
+                                mainVm.onDrawerItemTapped(
+                                    item.appDrawerEnum, context);
+                              },
+                              dense: false,
+                              minVerticalPadding: 0.0,
+                              minTileHeight: 40,
+                            ),
+                            Divider(),
+                          ],
+                        );
+                      },
+                    );
             },
           ),
         ],
