@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/app_drawer_list.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
+import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
@@ -77,7 +78,11 @@ class _AppDrawerState extends State<AppDrawer> {
                             ListTile(
                               leading: Icon(item.icon),
                               title: Text(item.name),
-                              trailing: item.appDrawerEnum ==
+                              trailing:
+                              item.appDrawerEnum ==
+                                  AppDrawerEnum.language
+                                  ? Text('${MySharedPreference.getLang()}') :
+                              item.appDrawerEnum ==
                                       AppDrawerEnum.appVersion
                                   ? Text('${AppConfig().packageInfo.version}')
                                   : Icon(

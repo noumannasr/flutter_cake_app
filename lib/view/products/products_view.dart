@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
+import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
+import 'package:flutter_cake_app/view/mainView/main_vm.dart';
 import 'package:flutter_cake_app/widgets/custom_app_bar.dart';
 import 'package:flutter_cake_app/widgets/product_item.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -77,7 +79,7 @@ class _ProductsViewState extends State<ProductsView> {
                 ),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('Products')
+                      .collection(AppText.productCollection)
                       .where('category',
                           isEqualTo: widget.categoryName.toString())
                       .where('isActive', isEqualTo: true)

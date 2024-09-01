@@ -9,12 +9,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_cake_app/adService/interstitial_ad_singleton.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
+import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/permission_handler.dart';
+import 'package:flutter_cake_app/view/languages/languages_vm.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
+import 'package:flutter_cake_app/view/splash/splash_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -166,7 +169,7 @@ void initMain({required String envFileName}) async {
       }
     },
   );
-
+  await MySharedPreference.init();
   runApp(const MyApp());
 }
 
@@ -189,6 +192,7 @@ class _MyAppState extends State<MyApp> {
     final textTheme = Theme.of(context).textTheme;
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => LanguagesVm()),
         ChangeNotifierProvider(create: (_) => MainVm(context)),
       ],
       child: ScreenUtilInit(
@@ -207,7 +211,7 @@ class _MyAppState extends State<MyApp> {
               useMaterial3: true,
               textTheme: GoogleFonts.montserratTextTheme(textTheme),
             ),
-            home: const MainView(),
+            home: const SplashScreen(),
           );
         },
       ),

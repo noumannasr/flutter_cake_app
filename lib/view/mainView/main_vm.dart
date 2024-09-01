@@ -5,12 +5,14 @@ import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/constants/app_drawer_list.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/core/dialogs/dialog.dart';
+import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
 import 'package:flutter_cake_app/model/product_model.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/categories/categories_view.dart';
+import 'package:flutter_cake_app/view/languages/set_language_view.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
 import 'package:flutter_cake_app/widgets/material_button.dart';
 import 'package:flutter_cake_app/widgets/upgrade_premium_version_dialog_widget.dart';
@@ -22,6 +24,8 @@ class MainVm extends ChangeNotifier {
   late BuildContext context;
   TextEditingController searchController = TextEditingController();
   FocusNode focusNode = FocusNode();
+
+
 
   List<CategoryModel> _categories = [];
   List<ProductModel> _productsList = [];
@@ -107,14 +111,16 @@ class MainVm extends ChangeNotifier {
   }
 
   Future<List<CategoryModel>> getCategoriesData() async {
+
     mapCategoriesAndProducts();
     setLoading(true);
     try {
       final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('Categories')
-          .where('isActive', isEqualTo: true)
+          .collection(AppText.categoryCollection)
+          .where('isActive', isEqualTo: true).where('language', isEqualTo: MySharedPreference.getLang())
           .get();
-
+      _categories.clear();
+      notifyListeners();
       for (var doc in querySnapshot.docs) {
         try {
           final data = doc.data() as Map<String, dynamic>;
@@ -146,9 +152,11 @@ class MainVm extends ChangeNotifier {
     try {
       final firestore = FirebaseFirestore.instance;
       final querySnapshot = await firestore
-          .collection('Products')
-          .where('isActive', isEqualTo: true)
+          .collection(AppText.productCollection)
+          .where('isActive', isEqualTo: true).where('language',isEqualTo: MySharedPreference.getLang())
           .get();
+      _productsList.clear();
+      notifyListeners();
       final products = querySnapshot.docs.map((doc) {
         return ProductModel.fromFirestore(doc);
       }).toList();
@@ -172,17 +180,18 @@ class MainVm extends ChangeNotifier {
     print(' We are here');
     setLoading(true);
     final categoriesSnapshot = await FirebaseFirestore.instance
-        .collection('Categories')
-        .where('isActive', isEqualTo: true)
+        .collection(AppText.categoryCollection)
+        .where('isActive', isEqualTo: true).where('language',isEqualTo: MySharedPreference.getLang())
         .get();
     final productsSnapshot = await FirebaseFirestore.instance
-        .collection('Products')
-        .where('isActive', isEqualTo: true)
+        .collection(AppText.productCollection)
+        .where('isActive', isEqualTo: true).where('language',isEqualTo: MySharedPreference.getLang())
         .get();
 
     final categories = categoriesSnapshot.docs;
     final products = productsSnapshot.docs;
-
+    finalData.clear();
+    notifyListeners();
     categories.forEach((categoryDoc) {
       final filteredProducts = products
           .where((productDoc) =>
@@ -207,6 +216,13 @@ class MainVm extends ChangeNotifier {
         AppAdsIds.showInterstitialAd(
           navigationEnum: NavigationScreensEnum.onPop,
           context: context,
+        );
+        break;
+      case AppDrawerEnum.language:
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SetLanguageView()),
         );
         break;
       case AppDrawerEnum.categories:

@@ -43,8 +43,16 @@ class _MainViewState extends State<MainView> {
   @override
   void initState() {
     Utils.firebaseAnalyticsLogEvent(dashboardScreen);
+    getLangData();
     versionCheck();
     super.initState();
+  }
+
+  getLangData() {
+    final mainVm = Provider.of<MainVm>(context, listen: false);
+    mainVm.getCategoriesData();
+    mainVm.getProductsData();
+    mainVm.mapCategoriesAndProducts();
   }
 
   Future<void> versionCheck() async {

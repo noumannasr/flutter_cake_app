@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/constants/app_ads_ids.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
+import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/constants/logs_events_keys.dart';
+import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
 import 'package:flutter_cake_app/model/category_model.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
@@ -76,7 +78,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                     ])),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection('Categories')
+                      .collection(AppText.categoryCollection).where('language',isEqualTo: MySharedPreference.getLang())
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {

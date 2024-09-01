@@ -8,6 +8,8 @@ class AppDrawerList {
     DrawerModel(
         name: 'Home', appDrawerEnum: AppDrawerEnum.home, icon: Icons.home),
     DrawerModel(
+        name: 'Language', appDrawerEnum: AppDrawerEnum.language, icon: Icons.language),
+    DrawerModel(
         name: 'Categories',
         appDrawerEnum: AppDrawerEnum.categories,
         icon: Icons.category),
@@ -54,6 +56,7 @@ class AppDrawerList {
 
 enum AppDrawerEnum {
   home,
+  language,
   categories,
   shareApp,
   rateApp,
