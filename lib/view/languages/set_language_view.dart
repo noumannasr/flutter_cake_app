@@ -50,7 +50,7 @@ class _SetLanguageViewState extends State<SetLanguageView> {
                   return languageVm.isLoading
                       ? CircularProgressIndicator(
                           strokeWidth: 1,
-                          color: AppColors.primaryColor,
+                          color: AppColors.darkBlack,
                         )
                       : Center(
                           child: DropdownButtonHideUnderline(
