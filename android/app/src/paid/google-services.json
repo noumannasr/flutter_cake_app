@@ -64,6 +64,44 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:791953399451:android:2b9bfc794b6b01b948f03e",
+        "android_client_info": {
+          "package_name": "com.deliciousandtastyrecipes.app.freeTesting"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdBR2TO5DEWLeh_jLfzhIGXkBUPNWIsSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791953399451:android:80e22d10dcd7f20748f03e",
+        "android_client_info": {
+          "package_name": "com.deliciousandtastyrecipes.app.paidTesting"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdBR2TO5DEWLeh_jLfzhIGXkBUPNWIsSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:791953399451:android:f8ab2860cfe1be0a48f03e",
         "android_client_info": {
           "package_name": "com.deliciousandtastyrecipes.app.premium"

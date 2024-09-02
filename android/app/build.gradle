@@ -66,7 +66,7 @@ android {
             signingConfig signingConfigs.release
         }
 
-        debug{
+        debug {
             signingConfig signingConfigs.debug
         }
     }
@@ -85,6 +85,20 @@ android {
             resValue "string", "app_name", "RecipeTreasure: Cook Guide"
             versionCode 2
             versionName "1.1.0"
+        }
+        freeTesting {
+            dimension "default"
+            applicationIdSuffix ".freeTesting"
+            resValue "string", "app_name", "RecipeTreasure: Cook Guide Free Testing"
+            versionCode 1
+            versionName "1.0.0"
+        }
+        paidTesting {
+            dimension "default"
+            applicationIdSuffix ".paidTesting"
+            resValue "string", "app_name", "RecipeTreasure: Cook Guide Paid Testing"
+            versionCode 1
+            versionName "1.0.0"
         }
     }
 
