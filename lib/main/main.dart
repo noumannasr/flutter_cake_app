@@ -11,6 +11,7 @@ import 'package:flutter_cake_app/adService/interstitial_ad_singleton.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/core/app_localizations.dart';
 import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
+import 'package:flutter_cake_app/my_app/my_app.dart';
 import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
@@ -195,48 +196,4 @@ void initMain({required String envFileName}) async {
       ),
     ),
   );
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precacheImage(AssetImage(BaseEnv.instance.status.appFlavorIcon()), context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (_, child) {
-        return NoInternetAppWidget(
-          child: MaterialApp(
-            navigatorObservers: [
-              FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
-            ],
-            debugShowCheckedModeBanner: false,
-            title: BaseEnv.instance.status.appFlavorName(),
-            supportedLocales: context.supportedLocales,
-            localizationsDelegates: context.localizationDelegates,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-              textTheme: GoogleFonts.montserratTextTheme(textTheme),
-            ),
-            home: const SplashScreen(),
-          ),
-        );
-      },
-    );
-  }
 }

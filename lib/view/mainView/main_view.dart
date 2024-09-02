@@ -34,9 +34,10 @@ class _MainViewState extends State<MainView> {
 
   @override
   void dispose() {
-    Provider.of<MainVm>(context).focusNode.dispose();
     if (BaseEnv.instance.status.appFlavor() == AppFlavorEnum.free) {
-      adService.adHome.dispose();
+      if(mounted){
+        adService.adHome.dispose();
+      }
     }
     super.dispose();
   }

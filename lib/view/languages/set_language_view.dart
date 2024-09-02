@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
+import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/view/languages/languages_vm.dart';
 import 'package:provider/provider.dart';
 
@@ -66,7 +67,7 @@ class _SetLanguageViewState extends State<SetLanguageView> {
                                               padding: const EdgeInsets.only(
                                                   left: 10),
                                               child: Text(
-                                                item.languageName,
+                                                item.languageName.selectedLanguage(),
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
@@ -77,7 +78,7 @@ class _SetLanguageViewState extends State<SetLanguageView> {
                                             ),
                                           ],
                                         ),
-                                      ))
+                                      ),)
                                   .toList(),
                               value: languageVm.selectedLanguage,
                               onChanged: (String? value) {

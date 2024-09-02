@@ -111,14 +111,6 @@ class _NoInternetAppWidgetState extends State<NoInternetAppWidget> {
   );
 
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    _getConnectionType();
-    streamSubscription = _connectivity.onConnectivityChanged.listen(_updateState);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,

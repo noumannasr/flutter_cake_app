@@ -3,8 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/core/app_localizations.dart';
 import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
-import 'package:flutter_cake_app/main/main.dart';
 import 'package:flutter_cake_app/model/language_model.dart';
+import 'package:flutter_cake_app/my_app/my_app.dart';
 
 class LanguagesVm extends ChangeNotifier {
   LanguageModel languageModel =

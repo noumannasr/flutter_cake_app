@@ -10,6 +10,7 @@ import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -101,22 +102,28 @@ class _AppDrawerState extends State<AppDrawer> {
                     backgroundImage: AssetImage(
                       BaseEnv.instance.status.appFlavorIcon(),
                     ),
-                    radius: 40,
+                    radius: 40.r,
                   ),
                 ),
-                Text(
-                  BaseEnv.instance.status.appFlavorName(),
-                  style: TextStyle(
+                Expanded(
+                  child: Text(
+                    BaseEnv.instance.status.appFlavorName(),
+                    maxLines: 5,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           ListView.builder(
             padding: EdgeInsets.zero,
-            itemCount:drawerList.length,
+            itemCount: drawerList.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
@@ -133,7 +140,8 @@ class _AppDrawerState extends State<AppDrawer> {
                               title: Text(item.name),
                               trailing: item.appDrawerEnum ==
                                       AppDrawerEnum.language
-                                  ? Text('${MySharedPreference.getLang().selectedLanguage()}')
+                                  ? Text(
+                                      '${MySharedPreference.getLang().selectedLanguage()}')
                                   : item.appDrawerEnum ==
                                           AppDrawerEnum.appVersion
                                       ? Text(
