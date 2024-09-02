@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/constants/app_ads_ids.dart';
@@ -55,7 +54,7 @@ class _CategoriesViewState extends State<CategoriesView> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: CustomAppBar(
-          title: 'Categories',
+          title: 'categories',
           isShowBackText: true,
           onGoBack: () {
             AppAdsIds.showInterstitialAd(

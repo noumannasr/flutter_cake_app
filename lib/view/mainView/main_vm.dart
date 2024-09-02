@@ -49,7 +49,7 @@ class MainVm extends ChangeNotifier {
 
   List<ProductModel> get filteredList => _filteredList;
 
-  MainVm(this.context) {
+  MainVm() {
     init();
   }
 

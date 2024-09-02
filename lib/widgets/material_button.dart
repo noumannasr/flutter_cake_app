@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
-import 'package:flutter_cake_app/utils/app_config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -96,7 +96,7 @@ class MyButton extends StatelessWidget {
                     SizedBox(width: 8.w),
                   ],
                   Text(
-                    title,
+                    title.tr(),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: disableButton
                               ? AppColors.darkBlack
@@ -134,7 +134,7 @@ class TextButtonWidget extends StatelessWidget {
       onTap: onTap,
       child: Center(
         child: Text(
-          title,
+          title.tr(),
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
               fontWeight: FontWeight.w500,
               color: textColor ?? AppColors.darkBlack),

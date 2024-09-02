@@ -3,7 +3,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/view/splash/splash_vm.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -11,15 +10,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
     return ChangeNotifierProvider(
       create: (BuildContext context) => SplashVm(context),
       child: Consumer<SplashVm>(
         builder: (context, vm, child) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            //backgroundColor: AppColors.whiteColor,
             body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -42,7 +38,6 @@ class SplashScreen extends StatelessWidget {
                         child: Center(
                           child: Image.asset(
                             "assets/icon/free_flavor_app_icon.png",
-                           // color: Colors.white,
                             height: 60,
                             width: 60,
                           ),

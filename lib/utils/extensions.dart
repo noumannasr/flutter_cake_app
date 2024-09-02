@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_cake_app/constants/app_images.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
 
@@ -32,11 +33,11 @@ extension BaseEnvExten on String {
   String appFlavorName() {
     switch (this) {
       case 'free':
-        return AppText.freeAppName;
+        return 'freeAppName'.tr();
       case 'paid':
-        return AppText.paidAppName;
+        return 'paidAppName'.tr();
       default:
-        return AppText.freeAppName;
+        return 'freeAppName'.tr();
     }
   }
 

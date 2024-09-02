@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_texts.dart';
 import 'package:flutter_cake_app/utils/utils.dart';
@@ -21,12 +22,11 @@ class UpgradePremiumVersionDialogWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Upgrade to Premium Version',
+              'upgrade_premium_title'.tr(),
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 8.h),
-            Text(
-                'Enjoy an ad-free experience! Install our Premium version from the Play Store to support our development and remove ads for a seamless experience.'),
+            Text('upgrade_premium_subtitle'.tr()),
             SizedBox(height: 8.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,23 +37,21 @@ class UpgradePremiumVersionDialogWidget extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Ad-free experience:',
+                          text: 'upgrade_premium_point1'.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
                               color: Colors.black,
                               fontFamily: GoogleFonts.montserrat().fontFamily),
                         ),
-
                         TextSpan(
-                          text: ' Enjoy uninterrupted usage without annoying ads.',
+                          text: ' upgrade_premium_pointSubPoint1'.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                               color: Colors.black,
                               fontFamily: GoogleFonts.montserrat().fontFamily),
                         ),
-
                       ],
                     ),
                   ),
@@ -65,29 +63,26 @@ class UpgradePremiumVersionDialogWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(Icons.check, color: Colors.green),
-
                 Expanded(
                   child: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Support the developers:',
+                          text: 'upgrade_premium_point2'.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
                               color: Colors.black,
                               fontFamily: GoogleFonts.montserrat().fontFamily),
                         ),
-
                         TextSpan(
-                          text: ' Contribute to the continued development and improvement of our app.',
+                          text: ' upgrade_premium_pointSubPoint2'.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                               color: Colors.black,
                               fontFamily: GoogleFonts.montserrat().fontFamily),
                         ),
-
                       ],
                     ),
                   ),
@@ -99,29 +94,26 @@ class UpgradePremiumVersionDialogWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(Icons.check, color: Colors.green),
-
                 Expanded(
                   child: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Priority support:',
+                          text: 'upgrade_premium_point3'.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
                               color: Colors.black,
                               fontFamily: GoogleFonts.montserrat().fontFamily),
                         ),
-
                         TextSpan(
-                          text: ' Get faster and more personalized assistance.',
+                          text: ' upgrade_premium_pointSubPoint3'.tr(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                               color: Colors.black,
                               fontFamily: GoogleFonts.montserrat().fontFamily),
                         ),
-
                       ],
                     ),
                   ),
@@ -131,7 +123,7 @@ class UpgradePremiumVersionDialogWidget extends StatelessWidget {
             SizedBox(height: 8.h),
             MyButton(
               verticalMargin: 0,
-              title: 'Install Now',
+              title: 'upgrade_premium_button_txt'.tr(),
               onTap: () => Utils.launchURL(
                 Uri.parse(
                   AppText.paidAppUrl,

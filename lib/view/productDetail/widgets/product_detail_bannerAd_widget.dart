@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/adService/ad_service.dart';
 import 'package:flutter_cake_app/constants/app_ads_ids.dart';
@@ -116,11 +117,11 @@ class ProductDetailBannerAdWidget extends StatelessWidget {
                   ],
                 ),
                 DetailItem(
-                  title: 'Ingredients',
+                  title: 'ingredients'.tr(),
                   text: productModel.ingredients,
                 ),
                 DetailItem(
-                  title: 'Direction',
+                  title: 'direction'.tr(),
                   text: productModel.direction,
                 ),
                 SizedBox(

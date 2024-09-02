@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cake_app/core/app_localizations.dart';
 import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
+import 'package:flutter_cake_app/main/main.dart';
 import 'package:flutter_cake_app/model/language_model.dart';
 import 'package:flutter_cake_app/view/mainView/main_view.dart';
-import 'package:flutter_cake_app/view/mainView/main_vm.dart';
-
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 class LanguagesVm extends ChangeNotifier {
   LanguageModel languageModel =
@@ -20,34 +18,65 @@ class LanguagesVm extends ChangeNotifier {
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
-  List<LanguageModel> get languageList => _languageList;
-  String get selectedLanguage => _selectedLanguage;
 
+  List<LanguageModel> get languageList => _languageList;
+
+  String get selectedLanguage => _selectedLanguage;
 
   LanguagesVm() {
     getSelectedLang();
-    getLanguages();
+    // getLanguages();
   }
 
-
-  setSelectedLang(String lang, BuildContext context) {
+  setSelectedLang(String lang, BuildContext context) async {
     _selectedLanguage = lang;
     notifyListeners();
-    MySharedPreference.setSelectedLang(lang);
+    await MySharedPreference.setSelectedLang(lang);
 
-  }
-
-  save(BuildContext context) {
-    MySharedPreference.setIsFirstLogin(false);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MainView()),
-    ).then((va) {
-
-      //setSelectedLangHome(lang, context);
+    Future.delayed(Duration.zero, () {
+      switch (lang) {
+        case 'English':
+          try {
+            context.setLocale(AppLocalizations.engLocale);
+          } on Exception catch (e) {
+            debugPrint('Exception: ${e.toString()}');
+          }
+        case 'Arabic':
+          try {
+            context.setLocale(AppLocalizations.arabicLocale);
+          } on Exception catch (e) {
+            debugPrint('Exception: ${e.toString()}');
+          }
+        default:
+          try {
+            context.setLocale(AppLocalizations.engLocale);
+          } on Exception catch (e) {
+            debugPrint('Exception: ${e.toString()}');
+          }
+      }
     });
   }
 
+  save(BuildContext context) async {
+    await MySharedPreference.setIsFirstLogin(false);
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => MainView()),
+    // ).then((va) {
+    //   //setSelectedLangHome(lang, context);
+    // });
+
+    Future.delayed(Duration.zero, () {
+      // Remove any route in the stack
+      Navigator.of(context).popUntil((route) => false);
+
+// Add the first route. Note MyApp() would be your first widget to the app.
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MyApp()),
+      );
+    });
+  }
 
   getSelectedLang() {
     _selectedLanguage = MySharedPreference.getLang();

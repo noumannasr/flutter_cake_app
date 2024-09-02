@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
 import 'package:flutter_cake_app/view/languages/set_language_view.dart';
@@ -7,6 +5,7 @@ import 'package:flutter_cake_app/view/mainView/main_view.dart';
 
 class SplashVm extends ChangeNotifier {
   bool _isFirstLogin = true;
+
   bool get isFirstLogin => _isFirstLogin;
 
   SplashVm(BuildContext context) {
@@ -20,13 +19,12 @@ class SplashVm extends ChangeNotifier {
     print(_isFirstLogin.toString() +
         _isFirstLogin.toString() +
         ' This is first login');
-    // notifyListeners();
 
     if (_isFirstLogin) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => SetLanguageView()),
-      ).whenComplete((){
+      ).whenComplete(() {
         MySharedPreference.setIsFirstLogin(false);
       });
     } else {
@@ -36,10 +34,4 @@ class SplashVm extends ChangeNotifier {
       );
     }
   }
-
-// saveFirstLogin() {
-//   _isFirstLogin = true;
-//   MySharedPreference.saveOnBoardCount(_isFirstLogin);
-//   notifyListeners();
-// }
 }

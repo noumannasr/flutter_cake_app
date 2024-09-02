@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,9 @@ class _MainViewState extends State<MainView> {
   @override
   void initState() {
     Utils.firebaseAnalyticsLogEvent(dashboardScreen);
-    getLangData();
+    Future.delayed(Duration.zero, () {
+      getLangData();
+    });
     versionCheck();
     super.initState();
   }
@@ -79,10 +82,9 @@ class _MainViewState extends State<MainView> {
       print("Remote Config Version is:" + newVersion.toString());
       if (newVersion > currentVersion) {
         Utils.showVersionDialog(
-          title: 'New Update Available',
-          subTitle:
-              'There is a newer version of app available please update it now.',
-          buttonTitle: 'Update Now',
+          title: 'new_update_available_title'.tr(),
+          subTitle: 'new_update_available_subtitle'.tr(),
+          buttonTitle: 'new_update_available_btn_txt'.tr(),
           context: context,
           onTap: () {
             Utils.launchURL(Uri.parse(AppText.appLink));
@@ -158,7 +160,8 @@ class _MainViewState extends State<MainView> {
                                 mainVm.finalData.isEmpty
                             ? SizedBox(
                                 height: deviceHeight * 0.8,
-                                child: Center(child: Text('No data found')))
+                                child:
+                                    Center(child: Text('no_data_found'.tr())))
                             : Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -170,8 +173,7 @@ class _MainViewState extends State<MainView> {
                                           child: FutureBuilder<void>(
                                             future: adService.loadAdHome(),
                                             builder: (BuildContext context,
-                                                AsyncSnapshot<void>
-                                                    snapshot) {
+                                                AsyncSnapshot<void> snapshot) {
                                               if (snapshot.connectionState ==
                                                   ConnectionState.waiting) {
                                                 return const Center(
@@ -192,19 +194,16 @@ class _MainViewState extends State<MainView> {
                                       ? SizedBox()
                                       : Center(
                                           child: SizedBox(
-                                            height:
-                                                mainVm.filteredList.isEmpty
-                                                    ? mainVm.searchController
-                                                            .text.isNotEmpty
-                                                        ? deviceHeight * 0.12
-                                                        : deviceHeight * 0.09
-                                                    : deviceHeight * 0.75,
+                                            height: mainVm.filteredList.isEmpty
+                                                ? mainVm.searchController.text
+                                                        .isNotEmpty
+                                                    ? deviceHeight * 0.12
+                                                    : deviceHeight * 0.09
+                                                : deviceHeight * 0.75,
                                             width: deviceWidth * 0.95,
-                                            child:
-                                                SearchableList<ProductModel>(
+                                            child: SearchableList<ProductModel>(
                                               searchFieldEnabled: true,
-                                              textInputType:
-                                                  TextInputType.text,
+                                              textInputType: TextInputType.text,
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold,
@@ -223,8 +222,8 @@ class _MainViewState extends State<MainView> {
                                                   .productName
                                                   .compareTo(b.productName),
                                               itemBuilder: (item) {
-                                                return mainVm.filteredList
-                                                        .isNotEmpty
+                                                return mainVm
+                                                        .filteredList.isNotEmpty
                                                     ? ProductItem(
                                                         productModel: item)
                                                     : SizedBox(
@@ -243,7 +242,8 @@ class _MainViewState extends State<MainView> {
                                                   ? Center(
                                                       child: Container(
                                                         child: Text(
-                                                          'No recipe found',
+                                                          'no_recipe_found'
+                                                              .tr(),
                                                           style: TextStyle(
                                                               fontSize: 10),
                                                         ),
@@ -252,28 +252,24 @@ class _MainViewState extends State<MainView> {
                                                   : SizedBox(
                                                       height: 0,
                                                     ),
-                                              initialList:
-                                                  mainVm.filteredList,
-                                              inputDecoration:
-                                                  InputDecoration(
+                                              initialList: mainVm.filteredList,
+                                              inputDecoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 enabledBorder:
                                                     OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none,
+                                                        borderSide:
+                                                            BorderSide.none,
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    10)),
+                                                                .circular(10)),
                                                 focusedBorder:
                                                     OutlineInputBorder(
-                                                        borderSide: BorderSide
-                                                            .none,
+                                                        borderSide:
+                                                            BorderSide.none,
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    10)),
-                                                hintText: "Search Recipes",
+                                                                .circular(10)),
+                                                hintText: 'search_recipes'.tr(),
                                                 fillColor: Colors.white,
                                                 filled: true,
                                                 contentPadding:
@@ -304,10 +300,10 @@ class _MainViewState extends State<MainView> {
                                                               .spaceBetween,
                                                       children: [
                                                         Text(
-                                                          'Categories',
+                                                          'categories'.tr(),
                                                           style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 15,
                                                               fontWeight:
                                                                   FontWeight
@@ -326,12 +322,11 @@ class _MainViewState extends State<MainView> {
                                                               navigationEnum:
                                                                   NavigationScreensEnum
                                                                       .seeAllCategories,
-                                                              context:
-                                                                  context,
+                                                              context: context,
                                                             );
                                                           },
                                                           child: Text(
-                                                            'See all',
+                                                            'see_all'.tr(),
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .black54,
@@ -347,18 +342,16 @@ class _MainViewState extends State<MainView> {
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                            left: 8,
-                                                            right: 2),
+                                                            left: 8, right: 2),
                                                     child: SizedBox(
                                                       height:
                                                           deviceHeight * 0.13,
                                                       width: deviceWidth,
                                                       child: RefreshIndicator(
-                                                        onRefresh: mainVm
-                                                            .refreshData,
+                                                        onRefresh:
+                                                            mainVm.refreshData,
                                                         color: Colors.blue,
-                                                        child:
-                                                            ListView.builder(
+                                                        child: ListView.builder(
                                                           padding:
                                                               EdgeInsets.zero,
                                                           shrinkWrap: true,
@@ -368,8 +361,7 @@ class _MainViewState extends State<MainView> {
                                                               .categories
                                                               .length,
                                                           itemBuilder:
-                                                              (context,
-                                                                  index) {
+                                                              (context, index) {
                                                             final item = mainVm
                                                                     .categories[
                                                                 index];
@@ -423,7 +415,7 @@ class _MainViewState extends State<MainView> {
                                                 height: deviceHeight * 0.13,
                                                 child: Center(
                                                   child: Text(
-                                                    'No categories found',
+                                                    'no_categories_found'.tr(),
                                                   ),
                                                 ),
                                               ),
@@ -454,8 +446,7 @@ class _MainViewState extends State<MainView> {
                                                         tabBuilder: (BuildContext
                                                                     context,
                                                                 int index,
-                                                                bool
-                                                                    active) =>
+                                                                bool active) =>
                                                             Padding(
                                                           padding:
                                                               const EdgeInsets
@@ -489,16 +480,16 @@ class _MainViewState extends State<MainView> {
                                                                       vertical:
                                                                           5),
                                                               child: Text(
-                                                                mainVm
-                                                                    .finalData
+                                                                mainVm.finalData
                                                                     .keys
                                                                     .elementAt(
                                                                         index),
                                                                 style: !active
                                                                     ? null
                                                                     : TextStyle(
-                                                                        fontWeight: FontWeight
-                                                                            .bold,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
                                                                         color: active
                                                                             ? AppColors.primaryColor
                                                                             : Colors.green),
@@ -506,17 +497,17 @@ class _MainViewState extends State<MainView> {
                                                             ),
                                                           ),
                                                         ),
-                                                        itemBuilder: (BuildContext
-                                                                    context,
-                                                                int index) =>
-                                                            Padding(
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                        context,
+                                                                    int index) =>
+                                                                Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                   .symmetric(
                                                                   horizontal:
                                                                       10,
-                                                                  vertical:
-                                                                      5),
+                                                                  vertical: 5),
                                                           child: Column(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -526,8 +517,7 @@ class _MainViewState extends State<MainView> {
                                                                     .start,
                                                             children: [
                                                               Text(
-                                                                mainVm
-                                                                    .finalData
+                                                                mainVm.finalData
                                                                     .keys
                                                                     .elementAt(
                                                                         index),
@@ -563,7 +553,7 @@ class _MainViewState extends State<MainView> {
                                                 height: deviceHeight * 0.59,
                                                 child: Center(
                                                   child: Text(
-                                                    'No recipes found',
+                                                    'no_recipe_found'.tr(),
                                                   ),
                                                 ),
                                               ),

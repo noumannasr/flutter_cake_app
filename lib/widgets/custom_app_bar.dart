@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
 import 'package:flutter_cake_app/svg_assets.dart';
@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       required this.title,
       this.isShowBackText = false,
       this.onGoBack,
-      this.backTitle = 'Back',
+      this.backTitle = 'back',
       this.bgColor,
       this.ifThereIsWidget,
       this.newHeight})
@@ -60,13 +60,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onGoBack!();
                   },
                   child: Text(
-                    backTitle,
+                    backTitle.tr(),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               Expanded(
                 child: Text(
-                  title,
+                  title.tr(),
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge
