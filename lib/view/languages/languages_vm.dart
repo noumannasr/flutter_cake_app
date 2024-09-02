@@ -43,6 +43,30 @@ class LanguagesVm extends ChangeNotifier {
           } on Exception catch (e) {
             debugPrint('Exception: ${e.toString()}');
           }
+        case 'Bengali':
+          try {
+            context.setLocale(AppLocalizations.bengaliLocale);
+          } on Exception catch (e) {
+            debugPrint('Exception: ${e.toString()}');
+          }
+        case 'Hindi':
+          try {
+            context.setLocale(AppLocalizations.hindiLocale);
+          } on Exception catch (e) {
+            debugPrint('Exception: ${e.toString()}');
+          }
+        case 'Turkish':
+          try {
+            context.setLocale(AppLocalizations.turkeyLocale);
+          } on Exception catch (e) {
+            debugPrint('Exception: ${e.toString()}');
+          }
+        case 'Urdu':
+          try {
+            context.setLocale(AppLocalizations.urduLocale);
+          } on Exception catch (e) {
+            debugPrint('Exception: ${e.toString()}');
+          }
         default:
           try {
             context.setLocale(AppLocalizations.engLocale);
