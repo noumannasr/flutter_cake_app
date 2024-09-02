@@ -34,7 +34,13 @@
   "upgrade_premium_pointSubPoint1": "Enjoy uninterrupted usage without annoying ads.",
   "upgrade_premium_point2": "Support the developers:",
   "upgrade_premium_pointSubPoint2": "Contribute to the continued development and improvement of our app.",
-  "upgrade_premium_point3" : "Priority support:",
+  "upgrade_premium_point3": "Priority support:",
   "upgrade_premium_pointSubPoint3": "Get faster and more personalized assistance.",
-  "upgrade_premium_button_txt": "Install Now"
+  "upgrade_premium_button_txt": "Install Now",
+  "english": "English",
+  "arabic": "Arabic",
+  "bengali": "Bengali",
+  "hindi": "Hindi",
+  "turkish": "Turkish",
+  "urdu": "Urdu"
 }

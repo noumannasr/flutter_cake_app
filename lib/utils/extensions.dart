@@ -84,4 +84,24 @@ extension BaseEnvExten on String {
         return 'Feedback: ${AppText.freeAppName}';
     }
   }
+
+  String selectedLanguage() {
+    switch (this) {
+      case 'English':
+        return 'english'.tr();
+      case 'Arabic':
+        return 'arabic'.tr();
+      case 'Bengali':
+        return 'bengali'.tr();
+      case 'Hindi':
+        return 'hindi'.tr();
+      case 'Turkish':
+        return 'turkish'.tr();
+      case 'Urdu':
+        return 'urdu'.tr();
+      default:
+        return 'english'.tr();
+    }
+  }
+
 }

@@ -3,8 +3,6 @@ import 'package:flutter_cake_app/utils/base_env.dart';
 import 'package:flutter_cake_app/utils/extensions.dart';
 
 class AppText {
-  static const categoryCollection = 'TestCategories'; // 'Categories'
-  static const productCollection = 'TestProducts'; // Products
   static String freeAppName = 'RecipeTreasure: Cook Guide';
   static String paidAppName = 'RecipeTreasure: Cook Guide Pro';
   static const supportEmail = "support@developerzonne.com";

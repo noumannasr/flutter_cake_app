@@ -36,5 +36,11 @@
   "upgrade_premium_pointSubPoint2": "অ্যাপ্লিকেশনের ধারাবাহিক উন্নয়ন এবং উন্নতির জন্য অবদান রাখুন।",
   "upgrade_premium_point3" : "অগ্রাধিকার সমর্থন:",
   "upgrade_premium_pointSubPoint3": "দ্রুত এবং আরও ব্যক্তিগতকৃত সহায়তা পান।",
-  "upgrade_premium_button_txt": "এখনই ইনস্টল করুন"
+  "upgrade_premium_button_txt": "এখনই ইনস্টল করুন",
+  "english": "ইংরেজি",
+  "arabic": "আরবি",
+  "bengali": "বাংলা",
+  "hindi": "হিন্দি",
+  "turkish": "তুর্কি",
+  "urdu": "উর্দু"
 }

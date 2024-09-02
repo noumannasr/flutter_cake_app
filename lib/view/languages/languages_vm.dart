@@ -5,13 +5,11 @@ import 'package:flutter_cake_app/core/app_localizations.dart';
 import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
 import 'package:flutter_cake_app/main/main.dart';
 import 'package:flutter_cake_app/model/language_model.dart';
-import 'package:flutter_cake_app/view/mainView/main_view.dart';
 
 class LanguagesVm extends ChangeNotifier {
   LanguageModel languageModel =
       LanguageModel(languageName: '', isActive: false);
   String _selectedLanguage = "English";
-  String _selectedHomeLanguage = "English";
   final List<LanguageModel> _languageList = [];
 
   int i = 0;
@@ -25,13 +23,11 @@ class LanguagesVm extends ChangeNotifier {
 
   LanguagesVm() {
     getSelectedLang();
-    // getLanguages();
   }
 
   setSelectedLang(String lang, BuildContext context) async {
     _selectedLanguage = lang;
     notifyListeners();
-    await MySharedPreference.setSelectedLang(lang);
 
     Future.delayed(Duration.zero, () {
       switch (lang) {
@@ -57,20 +53,14 @@ class LanguagesVm extends ChangeNotifier {
     });
   }
 
-  save(BuildContext context) async {
+  void save(BuildContext context, String selectedLanguage) async {
+    await MySharedPreference.setSelectedLang(selectedLanguage);
     await MySharedPreference.setIsFirstLogin(false);
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => MainView()),
-    // ).then((va) {
-    //   //setSelectedLangHome(lang, context);
-    // });
-
     Future.delayed(Duration.zero, () {
       // Remove any route in the stack
       Navigator.of(context).popUntil((route) => false);
 
-// Add the first route. Note MyApp() would be your first widget to the app.
+      // Add the first route. Note MyApp() would be your first widget to the app.
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const MyApp()),
@@ -78,8 +68,8 @@ class LanguagesVm extends ChangeNotifier {
     });
   }
 
-  getSelectedLang() {
-    _selectedLanguage = MySharedPreference.getLang();
+  getSelectedLang() async {
+    _selectedLanguage = await MySharedPreference.getLang();
     notifyListeners();
   }
 

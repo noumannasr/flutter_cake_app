@@ -77,7 +77,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                     ])),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection(AppText.categoryCollection).where('language',isEqualTo: MySharedPreference.getLang())
+                      .collection(BaseEnv.instance.categories).where('language',isEqualTo: MySharedPreference.getLang())
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {

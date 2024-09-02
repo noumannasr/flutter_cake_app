@@ -133,7 +133,7 @@ class _AppDrawerState extends State<AppDrawer> {
                               title: Text(item.name),
                               trailing: item.appDrawerEnum ==
                                       AppDrawerEnum.language
-                                  ? Text('${MySharedPreference.getLang()}')
+                                  ? Text('${MySharedPreference.getLang().selectedLanguage()}')
                                   : item.appDrawerEnum ==
                                           AppDrawerEnum.appVersion
                                       ? Text(

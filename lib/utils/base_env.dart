@@ -8,10 +8,16 @@ class BaseEnv {
   static BaseEnv get instance => _instance;
 
   late String _status;
+  late String _products;
+  late String _categories;
 
   void setEnv() {
     _status = dotenv.env['APP_STATUS'] ?? '';
+    _products = dotenv.env['PRODUCTS'] ?? '';
+    _categories = dotenv.env['CATEGORIES'] ?? '';
   }
 
   String get status => _status;
+  String get products => _products;
+  String get categories => _categories;
 }

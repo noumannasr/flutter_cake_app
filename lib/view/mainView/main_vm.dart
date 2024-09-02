@@ -116,7 +116,7 @@ class MainVm extends ChangeNotifier {
     setLoading(true);
     try {
       final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection(AppText.categoryCollection)
+          .collection(BaseEnv.instance.categories)
           .where('isActive', isEqualTo: true).where('language', isEqualTo: MySharedPreference.getLang())
           .get();
       _categories.clear();
@@ -152,7 +152,7 @@ class MainVm extends ChangeNotifier {
     try {
       final firestore = FirebaseFirestore.instance;
       final querySnapshot = await firestore
-          .collection(AppText.productCollection)
+          .collection(BaseEnv.instance.products)
           .where('isActive', isEqualTo: true).where('language',isEqualTo: MySharedPreference.getLang())
           .get();
       _productsList.clear();
@@ -180,11 +180,11 @@ class MainVm extends ChangeNotifier {
     print(' We are here');
     setLoading(true);
     final categoriesSnapshot = await FirebaseFirestore.instance
-        .collection(AppText.categoryCollection)
+        .collection(BaseEnv.instance.categories)
         .where('isActive', isEqualTo: true).where('language',isEqualTo: MySharedPreference.getLang())
         .get();
     final productsSnapshot = await FirebaseFirestore.instance
-        .collection(AppText.productCollection)
+        .collection(BaseEnv.instance.products)
         .where('isActive', isEqualTo: true).where('language',isEqualTo: MySharedPreference.getLang())
         .get();
 

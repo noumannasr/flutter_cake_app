@@ -22,6 +22,4 @@ class MySharedPreference {
   static String getLang() {
     return _preferences!.getString('selectedLang') ?? "English";
   }
-
-
 }

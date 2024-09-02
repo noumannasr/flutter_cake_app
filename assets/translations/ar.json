@@ -36,5 +36,11 @@
   "upgrade_premium_pointSubPoint2": "ساهم في تطوير وتحسين التطبيق بشكل مستمر.",
   "upgrade_premium_point3" : "دعم الأولوية:",
   "upgrade_premium_pointSubPoint3": "احصل على مساعدة أسرع وأكثر تخصيصًا.",
-  "upgrade_premium_button_txt": "تثبيت الآن"
+  "upgrade_premium_button_txt": "تثبيت الآن",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "bengali": "البنغالية",
+  "hindi": "الهندية",
+  "turkish": "التركية",
+  "urdu": "الأردية"
 }

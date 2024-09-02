@@ -36,5 +36,11 @@
   "upgrade_premium_pointSubPoint2": "Uygulamamızın sürekli gelişimi ve iyileştirilmesine katkıda bulunun.",
   "upgrade_premium_point3" : "Öncelikli destek:",
   "upgrade_premium_pointSubPoint3": "Daha hızlı ve kişiselleştirilmiş destek alın.",
-  "upgrade_premium_button_txt": "Şimdi Yükle"
+  "upgrade_premium_button_txt": "Şimdi Yükle",
+  "english": "İngilizce",
+  "arabic": "Arapça",
+  "bengali": "Bengalce",
+  "hindi": "Hintçe",
+  "turkish": "Türkçe",
+  "urdu": "Urduca"
 }

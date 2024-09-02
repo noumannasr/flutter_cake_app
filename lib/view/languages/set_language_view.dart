@@ -2,8 +2,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cake_app/constants/app_colors.dart';
-import 'package:flutter_cake_app/core/services/my_shared_preferences.dart';
-import 'package:flutter_cake_app/main/main.dart';
 import 'package:flutter_cake_app/view/languages/languages_vm.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +16,10 @@ class _SetLanguageViewState extends State<SetLanguageView> {
   @override
   void initState() {
     super.initState();
-    context.read<LanguagesVm>().getLanguages();
+    Future.delayed(Duration.zero,() {
+      context.read<LanguagesVm>().getLanguages();
+      context.read<LanguagesVm>().getSelectedLang();
+    });
   }
 
   @override
@@ -143,21 +144,7 @@ class _SetLanguageViewState extends State<SetLanguageView> {
                 height: deviceHeight * 0.025,
               ),
               GestureDetector(
-                onTap: () async {
-                  await MySharedPreference.setIsFirstLogin(false);
-
-                  Future.delayed(Duration.zero, () {
-                    // Remove any route in the stack
-                    if (Navigator.canPop(context)) {
-                      Navigator.of(context).popUntil((route) => false);
-                    }
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MyApp()),
-                    );
-                  });
-                },
+                onTap: () => context.read<LanguagesVm>().save(context,context.read<LanguagesVm>().selectedLanguage),
                 child: Container(
                   width: deviceWidth * 0.92,
                   height: deviceHeight * 0.05,

@@ -79,7 +79,7 @@ class _ProductsViewState extends State<ProductsView> {
                 ),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
-                      .collection(AppText.productCollection)
+                      .collection(BaseEnv.instance.products)
                       .where('category',
                           isEqualTo: widget.categoryName.toString())
                       .where('isActive', isEqualTo: true)
