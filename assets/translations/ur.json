@@ -42,5 +42,7 @@
   "bengali": "Bengalce",
   "hindi": "Hintçe",
   "turkish": "Türkçe",
-  "urdu": "Urduca"
+  "urdu": "Urduca",
+  "no_internet_connection": "انٹرنیٹ کنکشن نہیں ہے",
+  "try_again": "دوبارہ کوشش کریں"
 }

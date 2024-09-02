@@ -42,5 +42,7 @@
   "bengali": "বাংলা",
   "hindi": "হিন্দি",
   "turkish": "তুর্কি",
-  "urdu": "উর্দু"
+  "urdu": "উর্দু",
+  "no_internet_connection": "ইন্টারনেট সংযোগ নেই",
+  "try_again": "আবার চেষ্টা করুন"
 }

@@ -42,5 +42,7 @@
   "bengali": "बंगाली",
   "hindi": "हिंदी",
   "turkish": "तुर्की",
-  "urdu": "उर्दू"
+  "urdu": "उर्दू",
+  "no_internet_connection": " इंटरनेट कनेक्शन नहीं है",
+  "try_again": "फिर से प्रयास करें"
 }

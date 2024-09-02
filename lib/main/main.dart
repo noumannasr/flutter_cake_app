@@ -18,6 +18,7 @@ import 'package:flutter_cake_app/utils/permission_handler.dart';
 import 'package:flutter_cake_app/view/languages/languages_vm.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
 import 'package:flutter_cake_app/view/splash/splash_view.dart';
+import 'package:flutter_cake_app/widgets/no_internect_connectivity.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -218,20 +219,22 @@ class _MyAppState extends State<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) {
-        return MaterialApp(
-          navigatorObservers: [
-            FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
-          ],
-          debugShowCheckedModeBanner: false,
-          title: BaseEnv.instance.status.appFlavorName(),
-          supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-            textTheme: GoogleFonts.montserratTextTheme(textTheme),
+        return NoInternetAppWidget(
+          child: MaterialApp(
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+            ],
+            debugShowCheckedModeBanner: false,
+            title: BaseEnv.instance.status.appFlavorName(),
+            supportedLocales: context.supportedLocales,
+            localizationsDelegates: context.localizationDelegates,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+              textTheme: GoogleFonts.montserratTextTheme(textTheme),
+            ),
+            home: const SplashScreen(),
           ),
-          home: const SplashScreen(),
         );
       },
     );

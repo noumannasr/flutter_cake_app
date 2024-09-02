@@ -73,6 +73,7 @@ dependencies:
   # environment file
   flutter_dotenv: ^5.1.0
   easy_localization: ^3.0.7
+  connectivity_plus: ^5.0.1
 
 dev_dependencies:
 
