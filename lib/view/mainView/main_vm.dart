@@ -84,7 +84,7 @@ class MainVm extends ChangeNotifier {
   }
 
   void removeFocus() {
-    // Unfocus the TextField programmatically
+    // Unfocused the TextField programmatically
     focusNode.unfocus();
     notifyListeners();
   }
