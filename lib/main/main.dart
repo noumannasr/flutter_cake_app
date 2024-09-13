@@ -18,12 +18,8 @@ import 'package:flutter_cake_app/utils/extensions.dart';
 import 'package:flutter_cake_app/utils/permission_handler.dart';
 import 'package:flutter_cake_app/view/languages/languages_vm.dart';
 import 'package:flutter_cake_app/view/mainView/main_vm.dart';
-import 'package:flutter_cake_app/view/splash/splash_view.dart';
-import 'package:flutter_cake_app/widgets/no_internect_connectivity.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
@@ -153,6 +149,10 @@ void initMain({required String envFileName}) async {
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   }
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  ///* get FirebaseToken
+  var firebaseToken = await FirebaseMessaging.instance.getToken();
+  debugPrint('DeviceFirebaseToken: $firebaseToken');
 
   await PermissionHandler.requestNotificationPermission(
     notificationPermissionStatus: (status) async {
