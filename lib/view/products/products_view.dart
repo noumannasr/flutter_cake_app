@@ -54,7 +54,7 @@ class _ProductsViewState extends State<ProductsView> {
       },
       child: Scaffold(
         appBar: CustomAppBar(
-          title: widget.categoryName + " recipes".tr(),
+          title: '${widget.categoryName} ${'recipes'.tr()}',
           isShowBackText: true,
           onGoBack: () {
             AppAdsIds.showInterstitialAd(
